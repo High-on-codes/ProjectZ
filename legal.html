@@ -47,7 +47,7 @@
 
   nav{position:sticky;top:0;z-index:50;background:rgba(10,14,26,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:1160px;margin:0 auto;}
-  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;text-decoration:none;}
+  .brand(display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;text-decoration:none;}
   .brand-mark{width:26px;height:26px;flex:none;}
   .back{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);}
   .back:hover{color:var(--brass-bright);}
@@ -153,6 +153,7 @@
       <a href="#terms-license">License grant &amp; restrictions</a>
       <a href="#terms-payments">Subscriptions &amp; in-app purchases</a>
       <a href="#terms-conduct">Acceptable use</a>
+      <a href="#terms-liability-disclaimer">Content Responsibility Drop</a>
       <a href="#terms-ip">Intellectual property</a>
       <a href="#terms-warranty">Disclaimer of warranties</a>
       <a href="#terms-liability">Limitation of liability</a>
@@ -171,19 +172,20 @@
 
   <div class="doc">
 
+    <!-- PRIVACY POLICY -->
     <div class="doc-section" id="privacy">
       <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part I</span><h2>Privacy Policy</h2></div>
       <p class="doc-part-sub">Effective July 1, 2026. This policy explains what Project Z does and does not do with your data, in plain terms first and precise terms second.</p>
 
       <div class="article" id="privacy-collect-anchor">
-        <div class="article-num">§1</div>
+        <div class="article-num">1</div>
         <h3>Overview</h3>
         <p>Project Z is built as a local-first application. Our design goal is simple: the content of your goals and courses should never need to leave your device to be useful. This policy covers the Project Z iOS app, this website, and our beta waitlist form.</p>
         <div class="callout"><strong>In short:</strong> we do not operate a server that stores your goals, your courses, or your usage activity. The only personal information we ever hold is the email address you choose to give us for the beta waitlist.</div>
       </div>
 
       <div class="article" id="privacy-collect">
-        <div class="article-num">§2</div>
+        <div class="article-num">2</div>
         <h3>Information we collect</h3>
         <p>We collect the minimum needed to run a waitlist and, later, to process optional subscription payments:</p>
         <table class="data-table">
@@ -196,7 +198,7 @@
       </div>
 
       <div class="article" id="privacy-not-collect">
-        <div class="article-num">§3</div>
+        <div class="article-num">3</div>
         <h3>Information we do not collect</h3>
         <ul>
           <li>The goals, prompts, or courses you generate inside the app</li>
@@ -209,32 +211,38 @@
       </div>
 
       <div class="article" id="privacy-ondevice">
-        <div class="article-num">§4</div>
+        <div class="article-num">4</div>
         <h3>How on-device processing works</h3>
         <p>When you type a goal, Project Z runs inference locally using Apple's on-device intelligence frameworks. No network socket is opened during generation. The resulting course is written to a sandboxed SwiftData store that is unique to your installation of the app and is included in your device's standard encrypted backups (iCloud or local), governed by Apple's own backup encryption — not by us.</p>
         <p>Because generation happens on-device, we have no visibility into what you type, what courses are generated, or how you use them. We cannot recover this data for you if it's lost, since we never had a copy.</p>
       </div>
 
+      <div class="article">
+        <div class="article-num">4.1</div>
+        <h3>Technical Incapacity to Monitor Content</h3>
+        <p>Because our architecture leaves zero network sockets open during execution and writes exclusively to an isolated local sandbox, it is a technical impossibility for Project Z's creators, developers, or owners to view, log, check, filter, or intercept your inputs. We maintain absolutely no administrative access or command visibility over what is typed, searched, or generated within your local application sandbox.</p>
+      </div>
+
       <div class="article" id="privacy-third-party">
-        <div class="article-num">§5</div>
+        <div class="article-num">5</div>
         <h3>Third-party services &amp; data sharing</h3>
         <p>We rely on a small number of third parties strictly for functions we don't build ourselves:</p>
         <ul>
-          <li><strong>Processing Engine</strong> — collects waitlist email submissions securely from our intake form. We retain waitlist emails only as long as needed to send your invite, and we remove entries from the database on request.</li>
+          <li><strong>Processing Engine (Formspree)</strong> — collects waitlist email submissions securely from our intake form. We retain waitlist emails only as long as needed to send your invite, and we remove entries from the database on request.</li>
           <li><strong>Apple, Inc.</strong> — processes App Store purchases, subscription billing, and (if you opt in) crash diagnostics, under Apple's own privacy terms. We receive only an anonymized, aggregated purchase confirmation — never your card details.</li>
         </ul>
         <p>We do not use any advertising network, analytics platform, or data broker. We have never sold personal information and we do not intend to.</p>
       </div>
 
       <div class="article" id="privacy-retention">
-        <div class="article-num">§6</div>
+        <div class="article-num">6</div>
         <h3>Data retention &amp; deletion</h3>
         <p>Waitlist email addresses are retained until your invite is sent and for up to 12 months afterward for support purposes, unless you ask us to delete it sooner. Course and goal data never reaches us, so there is nothing on our servers to delete — deleting the app from your device, or deleting a course inside it, removes that data completely and immediately, including from any iCloud backup on your next sync.</p>
-        <p>To request early deletion of your waitlist email, contact us using the details in <a href="#contact">§ Contact Us</a>.</p>
+        <p>To request early deletion of your waitlist email, contact us using the details in <a href="#contact">Contact Us</a>.</p>
       </div>
 
       <div class="article" id="privacy-rights">
-        <div class="article-num">§7</div>
+        <div class="article-num">7</div>
         <h3>Your rights (GDPR, UK GDPR, and CCPA/CPRA)</h3>
         <p>Depending on where you live, you may have the right to:</p>
         <ul>
@@ -245,53 +253,54 @@
           <li>Withdraw consent at any time, without affecting the app's core functionality</li>
           <li>Lodge a complaint with your local data protection authority</li>
         </ul>
-        <p>Because Project Z does not sell personal information and does not use your data for cross-context behavioral advertising, there is no "opt out of sale" flow to run — there is nothing being sold. Residents may still submit a rights request as described in <a href="#contact">§ Contact Us</a>, and we will respond within the timeframe required by applicable law.</p>
+        <p>Because Project Z does not sell personal information and does not use your data for cross-context behavioral advertising, there is no "opt out of sale" flow to run — there is nothing being sold. Residents may still submit a rights request as described in <a href="#contact">Contact Us</a>, and we will respond within the timeframe required by applicable law.</p>
       </div>
 
       <div class="article" id="privacy-transfers">
-        <div class="article-num">§8</div>
+        <div class="article-num">8</div>
         <h3>International data transfers</h3>
         <p>Waitlist emails processed may be transferred to and stored securely on infrastructure using standard contractual clauses and safeguards for cross-border processing. Because your goal and course content never leaves your device, no international transfer of that content ever occurs.</p>
       </div>
 
       <div class="article" id="privacy-children">
-        <div class="article-num">§9</div>
+        <div class="article-num">9</div>
         <h3>Children's privacy</h3>
         <p>Project Z is not directed at children under 13 (or the equivalent minimum age in your jurisdiction), and we do not knowingly collect personal information from children. Because our waitlist only asks for an email address and the app itself collects no personal data at all, the practical exposure is minimal — but if you believe a child has submitted an email to our waitlist, contact us and we will delete it promptly.</p>
       </div>
 
       <div class="article" id="privacy-security">
-        <div class="article-num">§10</div>
+        <div class="article-num">10</div>
         <h3>Security measures</h3>
         <p>Waitlist submissions are encrypted in transit via TLS. On-device data is protected by iOS's sandboxing and file-system encryption. Because we do not operate a central database of user content, there is no central store of your course data for anyone to breach. No transmission or storage system is completely immune to risk, and we cannot guarantee absolute security, but our architecture is deliberately designed to minimize what could ever be exposed.</p>
       </div>
 
       <div class="article" id="privacy-changes">
-        <div class="article-num">§11</div>
+        <div class="article-num">11</div>
         <h3>Changes to this policy</h3>
         <p>If we change this policy in a way that materially affects your rights, we will update the "Last revised" date above and, where required by law, notify you through the app or the email on file. We encourage you to review this page periodically.</p>
       </div>
     </div>
 
+    <!-- TERMS OF SERVICE -->
     <div class="doc-section" id="terms">
       <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part II</span><h2>Terms of Service</h2></div>
       <p class="doc-part-sub">Effective July 1, 2026. By downloading, installing, or using Project Z, you agree to the terms below.</p>
 
       <div class="article">
-        <div class="article-num">§1</div>
+        <div class="article-num">1</div>
         <h3>Acceptance of terms</h3>
         <p>These Terms of Service form a binding agreement between you and Project Z's publisher. If you do not agree to them, do not download, install, or use the app. Continued use of the app after a posted update to these terms constitutes acceptance of the revised terms.</p>
       </div>
 
       <div class="article" id="terms-license">
-        <div class="article-num">§2</div>
+        <div class="article-num">2</div>
         <h3>License grant &amp; restrictions</h3>
         <p>We grant you a single, non-exclusive, non-transferable, revocable license to install and run Project Z on Apple devices that you own or control, for your personal, non-commercial use, subject to Apple's standard licensed application end user license agreement.</p>
         <p>You may not: reverse-engineer, decompile, or disassemble the app except where permitted by law; resell, sublicense, or commercially exploit the app or its output; use the app to build a competing product; or circumvent any technical measure that restricts access to paid features.</p>
       </div>
 
       <div class="article" id="terms-payments">
-        <div class="article-num">§3</div>
+        <div class="article-num">3</div>
         <h3>Subscriptions &amp; in-app purchases</h3>
         <p>Certain advanced course-tracking and analytics features are offered under a premium subscription tier, billed and managed exclusively through Apple's In-App Purchase system.</p>
         <ul>
@@ -304,78 +313,89 @@
       </div>
 
       <div class="article" id="terms-conduct">
-        <div class="article-num">§4</div>
+        <div class="article-num">4</div>
         <h3>Acceptable use</h3>
         <p>You agree not to use Project Z to generate, store, or distribute content that is unlawful, infringing, or intended to harass or harm others, and not to attempt to interfere with the app's operation or security, including through automated scraping, jailbreak-specific exploitation, or credential abuse against Apple's platform services.</p>
       </div>
 
+      <div class="article" id="terms-liability-disclaimer">
+        <div class="article-num">5</div>
+        <h3>User-Generated Prompts &amp; Input Responsibility</h3>
+        <p>Project Z operates purely as a neutral, local text processing tool. The application core does not curate, pre-filter, manage, review, or control the phrases, terms, objectives, or instructions inputted by the user. <strong>You assume single, absolute, and total legal and criminal liability</strong> for any goal or textual prompt you input into this tool.</p>
+        <p>The creators, developers, owners, and operators of Project Z explicitly disclaim any liability or responsibility for what users search, generate, or attempt to build using the output structure of this software. You agree that you will not use this tool to compile info for hazardous, restricted, unsafe, weaponized, or illegal activities.</p>
+      </div>
+
       <div class="article" id="terms-ip">
-        <div class="article-num">§5</div>
+        <div class="article-num">6</div>
         <h3>Intellectual property</h3>
         <p>Project Z, its name, logo, interface design, and underlying software are the property of its publisher and are protected by copyright, trademark, and other applicable laws. Course content you generate is yours; we claim no ownership over the specific goals, prompts, or courses you create, and — because that content stays on your device — we have no ability to access, use, or reproduce it.</p>
       </div>
 
       <div class="article" id="terms-warranty">
-        <div class="article-num">§6</div>
+        <div class="article-num">7</div>
         <h3>Disclaimer of warranties</h3>
-        <p>The app is provided "as is" and "as available," without warranties of any kind, whether express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that generated courses will be accurate, complete, or suitable for your specific circumstances, or that the app will be uninterrupted, error-free, or free of data loss resulting from device failure, operating system crashes, or user error.</p>
+        <p>The app is provided "as is" and "as available," without warranties of any kind, whether express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that generated courses will be accurate, complete, safe, or suitable for your specific circumstances, or that the app will be uninterrupted, error-free, or free of data loss resulting from device failure, operating system crashes, or user error.</p>
+        <p>The step breakdowns generated by the on-device AI model are structural approximations for educational layout planning and personal analysis only. They do not constitute certified blueprints, engineering plans, professional advice, or safety clearances.</p>
       </div>
 
       <div class="article" id="terms-liability">
-        <div class="article-num">§7</div>
+        <div class="article-num">8</div>
         <h3>Limitation of liability</h3>
-        <p>To the maximum extent permitted by law, the publisher of Project Z will not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of data, goodwill, or profits, arising from your use of or inability to use the app, even if advised of the possibility of such damages. Our total aggregate liability for any claim relating to the app will not exceed the amount you paid us, if any, in the twelve months preceding the claim.</p>
+        <p>To the maximum extent permitted by law, the publisher, creator, and developers of Project Z will not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of data, goodwill, legal infractions, safety hazards, physical harm, or financial losses arising from your choices, searches, or actions built out from application usage, even if advised of the possibility of such damages.</p>
       </div>
 
       <div class="article" id="terms-indemnity">
-        <div class="article-num">§8</div>
+        <div class="article-num">9</div>
         <h3>Indemnification</h3>
-        <p>You agree to indemnify and hold harmless the publisher of Project Z from any claims, damages, or expenses arising from your violation of these terms or your misuse of the app.</p>
+        <p>You agree to indemnify and hold harmless the publisher, creator, and developers of Project Z from any legal claims, suits, governmental inquiries, damages, or legal expenses arising from your direct violation of these terms or your misuse of the tool to generate hazardous or unlawful content.</p>
       </div>
 
       <div class="article" id="terms-termination">
-        <div class="article-num">§9</div>
+        <div class="article-num">10</div>
         <h3>Termination</h3>
         <p>You may stop using Project Z at any time by deleting the app. We may suspend or terminate your access to premium features if you violate these terms, though because course content lives on your device, deletion of access does not delete your existing local data.</p>
       </div>
 
       <div class="article" id="terms-law">
-        <div class="article-num">§10</div>
+        <div class="article-num">11</div>
         <h3>Governing law &amp; dispute resolution</h3>
         <p>These terms are governed by the laws of the jurisdiction in which the publisher is established, without regard to conflict-of-law principles, except where local consumer-protection law requires otherwise. Disputes will first be addressed through good-faith informal negotiation; if unresolved, either party may pursue claims in the courts of competent jurisdiction, subject to any mandatory arbitration or small-claims rights available to you under local law.</p>
       </div>
 
       <div class="article" id="terms-changes">
-        <div class="article-num">§11</div>
+        <div class="article-num">12</div>
         <h3>Changes to these terms</h3>
         <p>We may update these terms from time to time. Material changes will be reflected in the "Last revised" date at the top of this page, and where required, we will provide additional notice through the app.</p>
       </div>
     </div>
 
+    <!-- COOKIES -->
     <div class="doc-section" id="cookies">
       <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part III</span><h2>Cookie &amp; Tracking Policy</h2></div>
       <p class="doc-part-sub">Covers this website only. The Project Z iOS app contains no cookies, web views, or tracking SDKs of any kind.</p>
       <div class="article">
-        <div class="article-num">§1</div>
+        <div class="article-num">1</div>
         <h3>What this site uses</h3>
         <p>This website does not set analytics, advertising, or third-party tracking cookies. It uses only what's strictly necessary to render pages. No cross-site tracking, fingerprinting, or ad pixel is present.</p>
       </div>
       <div class="article">
-        <div class="article-num">§2</div>
+        <div class="article-num">2</div>
         <h3>Your choices</h3>
         <p>Because we don't deploy optional or advertising cookies, there's no consent banner to manage.</p>
-      </div>
+    </div>
     </div>
 
+    <!-- ACCESSIBILITY -->
     <div class="doc-section" id="accessibility">
       <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part IV</span><h2>Accessibility Statement</h2></div>
       <div class="article">
-        <div class="article-num">§1</div>
+        <div class="article-num">1</div>
         <h3>Our commitment</h3>
         <p>We aim for this site and the Project Z app to be usable with VoiceOver, Dynamic Type, and Reduce Motion enabled. If you encounter a barrier using either, please tell us — accessibility issues are treated as priority bugs, not feature requests.</p>
       </div>
     </div>
 
+    <!-- CONTACT -->
     <div class="doc-section" id="contact" style="border-bottom:none;">
       <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part V</span><h2>Contact Us</h2></div>
       <p class="doc-part-sub">Questions about this charter, data requests, or anything else legal — reach us directly.</p>
