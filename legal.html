@@ -48,7 +48,7 @@
   nav{position:sticky;top:0;z-index:50;background:rgba(10,14,26,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:1160px;margin:0 auto;}
   .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;text-decoration:none;}
-  .brand-mark{width:26px;height:26px;flex:none;}
+  .brand-mark{width:26px;height:26px;object-fit:contain;border-radius:6px;flex:none;}
   .back{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);}
   .back:hover{color:var(--brass-bright);}
 
@@ -113,7 +113,7 @@
 <nav>
   <div class="nav-inner">
     <a class="brand" href="index.html">
-      <svg class="brand-mark" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" stroke="#c89b3c" stroke-width="1"/><path d="M13 3v4M13 19v4M3 13h4M19 13h4" stroke="#c89b3c" stroke-width="1"/><path d="M9.5 9.5h7l-7 7h7" stroke="#e0b658" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <img class="brand-mark" src="logo.png" alt="Project Z Logo">
       Project Z
     </a>
     <a class="back" href="index.html">← Back to the app</a>
