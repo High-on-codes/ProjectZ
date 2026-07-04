@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Z — Chart Any Ambition Like a Constellation</title>
+<meta name="description" content="Project Z is a local-first, on-device roadmap generator for iOS. Turn any goal into a 15–30 waypoint chart, plotted entirely on your phone. No cloud, no accounts, no tracking.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Spectral:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0e1a;
+    --panel:#101828;
+    --panel-2:#151f33;
+    --line:#26314a;
+    --parchment:#eee6d3;
+    --parchment-dim:#b9b2a0;
+    --brass:#c89b3c;
+    --brass-bright:#e0b658;
+    --verdigris:#5aa9a3;
+    --rosewood:#a85c48;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--parchment);
+    font-family:'Spectral', serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--parchment);
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+  }
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+
+  /* starfield */
+  .stars{
+    position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1px 1px at 12% 22%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 12%, #fff6 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 34% 62%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 92% 48%, #fff5 50%, transparent 51%),
+      radial-gradient(1px 1px at 58% 84%, #fff7 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 8% 76%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 46% 8%, #fff5 50%, transparent 51%),
+      radial-gradient(1px 1px at 68% 92%, #fff6 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 24% 44%, #fffa 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 74%, #fff5 50%, transparent 51%);
+    background-size:100% 100%;
+    background-color:var(--ink);
+  }
+  .stars::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 50% -10%, #1a2540 0%, transparent 55%);
+  }
+
+  /* nav */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,14,26,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:1160px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;}
+  .brand-mark{width:26px;height:26px;flex:none;}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);transition:color .2s;}
+  .nav-links a:hover{color:var(--brass-bright);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;
+    padding:11px 20px;border-radius:var(--radius);
+    text-decoration:none;border:1px solid var(--brass);
+    color:var(--ink);background:var(--brass);
+    transition:transform .15s ease, background .2s;
+  }
+  .btn:hover{background:var(--brass-bright);transform:translateY(-1px);}
+  .btn.ghost{background:transparent;color:var(--brass-bright);}
+  .btn.ghost:hover{background:rgba(200,155,60,0.1);}
+
+  /* hero */
+  header.hero{position:relative;padding:110px 0 70px;overflow:hidden;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.74rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--verdigris);margin-bottom:22px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--verdigris);display:inline-block;}
+  h1.headline{font-size:clamp(2.4rem,5.6vw,4.3rem);line-height:1.06;max-width:920px;margin:0 0 26px;}
+  h1.headline em{font-style:italic;color:var(--brass-bright);}
+  .sub{max-width:600px;color:var(--parchment-dim);font-size:1.08rem;margin-bottom:38px;}
+  .hero-ctas{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:64px;}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:720px;}
+  .stat{background:var(--panel);padding:20px 18px;}
+  .stat .num{font-family:'Fraunces',serif;font-size:1.9rem;color:var(--brass-bright);}
+  .stat .lbl{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--parchment-dim);margin-top:4px;}
+
+  section{padding:100px 0;position:relative;}
+  .section-head{max-width:640px;margin-bottom:56px;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin:0 0 16px;}
+  .section-head p{color:var(--parchment-dim);font-size:1.02rem;}
+
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .pillar{background:var(--panel);padding:38px 32px;}
+  .pillar .glyph{width:38px;height:38px;color:var(--brass-bright);margin-bottom:26px;}
+  .pillar h3{font-size:1.3rem;margin:0 0 12px;}
+  .pillar p{color:var(--parchment-dim);font-size:0.95rem;margin:0;}
+
+  /* demo */
+  .demo-panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:0;overflow:hidden;
+  }
+  .demo-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--line);}
+  .demo-toolbar .mono{color:var(--parchment-dim);}
+  .demo-body{display:grid;grid-template-columns:1fr 1.3fr;min-height:460px;}
+  @media(max-width:860px){.demo-body{grid-template-columns:1fr;}}
+  .demo-input-col{padding:34px;border-right:1px solid var(--line);}
+  @media(max-width:860px){.demo-input-col{border-right:none;border-bottom:1px solid var(--line);}}
+  .goal-form{display:flex;gap:10px;margin-bottom:22px;}
+  .goal-form input{
+    flex:1;background:var(--ink);border:1px solid var(--line);color:var(--parchment);
+    font-family:'Spectral',serif;font-size:0.98rem;padding:13px 16px;border-radius:var(--radius);
+  }
+  .goal-form input:focus{outline:none;border-color:var(--brass);}
+  .goal-form button{
+    font-family:'IBM Plex Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;
+    background:var(--verdigris);color:var(--ink);border:none;padding:0 20px;border-radius:var(--radius);cursor:pointer;
+  }
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;
+    border:1px solid var(--line);color:var(--parchment-dim);padding:8px 12px;border-radius:20px;cursor:pointer;background:transparent;
+  }
+  .chip:hover{border-color:var(--brass);color:var(--brass-bright);}
+  .demo-status{margin-top:26px;color:var(--parchment-dim);font-size:0.88rem;}
+  .demo-status strong{color:var(--verdigris);}
+  .chart-col{padding:20px;display:flex;align-items:center;justify-content:center;}
+  #chartSvg{width:100%;height:100%;}
+  .waypoint-label{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--parchment-dim);}
+  .waypoint-title{font-family:'Spectral',serif;font-size:12.5px;fill:var(--parchment);}
+
+  /* architecture */
+  .arch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .arch-card{background:var(--panel);padding:34px 30px;}
+  .arch-card .tag{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:var(--verdigris);text-transform:uppercase;margin-bottom:16px;}
+  .arch-card h3{font-size:1.15rem;margin:0 0 10px;}
+  .arch-card p{color:var(--parchment-dim);font-size:0.9rem;margin:0 0 20px;}
+  .kv{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;padding:8px 0;border-top:1px solid var(--line);color:var(--parchment-dim);}
+  .kv span:last-child{color:var(--parchment);}
+
+  /* waitlist */
+  .waitlist{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:56px;display:flex;gap:56px;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+  .waitlist-copy{max-width:440px;}
+  .waitlist-copy h2{font-size:1.9rem;margin:0 0 14px;}
+  .waitlist-copy p{color:var(--parchment-dim);margin:0;}
+  .waitlist-form{display:flex;flex-direction:column;gap:14px;min-width:300px;flex:1;max-width:400px;}
+  .waitlist-form input{background:var(--ink);border:1px solid var(--line);color:var(--parchment);font-family:'Spectral',serif;padding:13px 16px;border-radius:var(--radius);}
+  .waitlist-form input:focus{outline:none;border-color:var(--brass);}
+  .fine{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--parchment-dim);letter-spacing:0.02em;text-transform:none;}
+  .fine a{color:var(--verdigris);text-decoration:underline;}
+
+  /* toast popup style */
+  .toast-popup{
+    position:fixed;
+    bottom:-60px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--panel);
+    border:1px solid var(--brass);
+    color:var(--parchment);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:14px 24px;
+    border-radius:var(--radius);
+    z-index:100;
+    opacity:0;
+    pointer-events:none;
+    box-shadow:0 12px 32px rgba(0,0,0,0.5);
+    transition:bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  }
+  .toast-popup.show{
+    bottom:32px;
+    opacity:1;
+  }
+
+  footer{border-top:1px solid var(--line);padding:48px 0 40px;}
+  .foot-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
+  .foot-links{display:flex;gap:26px;flex-wrap:wrap;}
+  .foot-links a{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);}
+  .foot-links a:hover{color:var(--brass-bright);}
+  .copyright{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--parchment-dim);margin-top:18px;}
+
+  @media(max-width:860px){
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .pillars,.arch-grid{grid-template-columns:1fr;}
+    .waitlist{padding:36px 26px;}
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<!-- toast structure -->
+<div id="downloadToast" class="toast-popup">your missioncraft will be ready soon!</div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" stroke="#c89b3c" stroke-width="1"/><path d="M13 3v6M13 17v6M3 13h6M17 13h6" stroke="#c89b3c" stroke-width="1"/><circle cx="13" cy="13" r="2.4" fill="#c89b3c"/></svg>
+      Project Z
+    </div>
+    <div class="nav-links">
+      <a href="#pillars">Charts</a>
+      <a href="#demo">Plot a Course</a>
+      <a href="#architecture">Construction</a>
+      <a href="#waitlist">Voyage</a>
+      <a href="legal.html">Legal</a>
+    </div>
+    <a class="btn" href="#waitlist">Get the App</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">SwiftUI Native · iOS 17+ · No Account Required</div>
+    <h1 class="headline">Chart any ambition <em>like a constellation.</em></h1>
+    <p class="sub">Project Z turns a single goal into a 15-to-30 waypoint course, plotted entirely by a local AI engine on your phone. Nothing is uploaded, nothing is tracked — the chart never leaves your pocket.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="javascript:void(0);" onclick="showToast()">Download on the App Store</a>
+      <a class="btn ghost" href="#demo">Try it below ↓</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num">0</div><div class="lbl">Cloud Databases</div></div>
+      <div class="stat"><div class="num">0</div><div class="lbl">Trackers Installed</div></div>
+      <div class="stat"><div class="num">15–30</div><div class="lbl">Waypoints / Course</div></div>
+      <div class="stat"><div class="num">100%</div><div class="lbl">On-Device</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="pillars">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Three Instruments</div>
+      <h2>Everything a serious course needs, nothing it doesn't.</h2>
+      <p>Project Z isn't another checklist. It's a small set of instruments, each doing one job precisely.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <svg class="glyph" viewBox="0 0 40 40" fill="none"><path d="M20 4l3.5 11H35l-9.3 6.8L29 33 20 26 11 33l3.3-11.2L5 15h11.5z" stroke="#e0b658" stroke-width="1.2" fill="none"/></svg>
+        <h3>Celestial Mapping</h3>
+        <p>Give it any discipline — orbital mechanics or oil painting — and the on-device engine lays out an ordered course of 15 to 30 waypoints, shaped to that specific goal.</p>
+      </div>
+      <div class="pillar">
+        <svg class="glyph" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="15" stroke="#e0b658" stroke-width="1.2"/><circle cx="20" cy="20" r="4" stroke="#e0b658" stroke-width="1.2"/><path d="M20 5v6M20 29v6M5 20h6M29 20h6" stroke="#e0b658" stroke-width="1.2"/></svg>
+        <h3>Absolute Privacy</h3>
+        <p>A local-first sandbox, full stop. No cloud database, no telemetry, no account. Every waypoint you chart is owned, stored, and processed on your device alone.</p>
+      </div>
+      <div class="pillar">
+        <svg class="glyph" viewBox="0 0 40 40" fill="none"><path d="M6 30 L20 8 L34 30 Z" stroke="#e0b658" stroke-width="1.2"/><path d="M14 24h12" stroke="#e0b658" stroke-width="1.2"/></svg>
+        <h3>An Instrument, Not a Toy</h3>
+        <p>A quiet, high-precision interface for builders who notice detail — brass-toned panels, cartographic type, and motion tuned to feel like a real instrument.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Live Preview</div>
+      <h2>Name a goal. Watch the chart take shape.</h2>
+      <p>This is a simplified web preview of the on-device engine. Try one of your own, or pick a course below — the real app runs this entirely offline, on your phone.</p>
+    </div>
+    <div class="demo-panel">
+      <div class="demo-toolbar">
+        <span class="mono">projectz_engine.local — awaiting input</span>
+        <span class="mono" id="engineStatus">Standing by</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-input-col">
+          <div class="goal-form">
+            <input id="goalInput" type="text" placeholder="e.g. Learn celestial navigation" maxlength="60">
+            <button onclick="plotCourse()">Plot Course</button>
+          </div>
+          <div class="chip-row">
+            <button class="chip" onclick="quickPlot('Build a Rocket')">Build a Rocket</button>
+            <button class="chip" onclick="quickPlot('Launch a Podcast')">Launch a Podcast</button>
+            <button class="chip" onclick="quickPlot('Learn Piano')">Learn Piano</button>
+            <button class="chip" onclick="quickPlot('Ship a Startup')">Ship a Startup</button>
+          </div>
+          <div class="demo-status">Compute location: <strong>on-device</strong> · Output range: <strong>15–30 steps</strong> · Avg. generation: <strong>&lt; 400ms</strong></div>
+        </div>
+        <div class="chart-col">
+          <svg id="chartSvg" viewBox="0 0 480 460"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Engineering Schematic</div>
+      <h2>Built native. Runs local. No exceptions.</h2>
+      <p>Project Z is written entirely in SwiftUI with a sandboxed SwiftData layer — no third-party backend, no remote API for your data to pass through.</p>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="tag">Layer 01 — Interface</div>
+        <h3>SwiftUI Native Execution</h3>
+        <p>Every view is rendered through Apple's native declarative framework — no WebView wrapper, no cross-platform compromise.</p>
+        <div class="kv"><span>Render engine</span><span>SwiftUI 5</span></div>
+        <div class="kv"><span>Min. target</span><span>iOS 17.0</span></div>
+        <div class="kv"><span>Frame budget</span><span>≤ 8.3ms</span></div>
+      </div>
+      <div class="arch-card">
+        <div class="tag">Layer 02 — Memory</div>
+        <h3>SwiftData Local Cache</h3>
+        <p>Charts are parsed and persisted through a sandboxed on-device model layer, built for instantaneous read and write with zero lag.</p>
+        <div class="kv"><span>Storage class</span><span>Sandboxed</span></div>
+        <div class="kv"><span>Network calls</span><span>0</span></div>
+        <div class="kv"><span>Sync target</span><span>None</span></div>
+      </div>
+      <div class="arch-card">
+        <div class="tag">Layer 03 — Engine</div>
+        <h3>On-Device Generation Core</h3>
+        <p>The chart engine runs its inference locally, ordering waypoints by dependency rather than difficulty alone.</p>
+        <div class="kv"><span>Compute location</span><span>On-device</span></div>
+        <div class="kv"><span>Output range</span><span>15–30 steps</span></div>
+        <div class="kv"><span>Avg. generation</span><span>&lt; 400ms</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="waitlist">
+  <div class="wrap">
+    <div class="waitlist">
+      <div class="waitlist-copy">
+        <div class="eyebrow">Beta Cohort Intake</div>
+        <h2>Chart your next course tonight.</h2>
+        <p>Leave your email and we'll send an invite the moment your device rig qualifies. Requires iOS 17 or later and Apple Intelligence-capable silicon.</p>
+      </div>
+      <div class="waitlist-form">
+        <input type="email" placeholder="Enter your email address" required aria-label="Email address">
+        <button class="btn" style="justify-content:center; width:100%; border:1px solid var(--brass); cursor:pointer;">Join the Voyage</button>
+        <div class="fine">We'll only use your address to send an invite — see how in our <a href="legal.html#privacy">Privacy Policy</a>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div>
+      <div class="brand" style="margin-bottom:14px;">
+        <svg class="brand-mark" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" stroke="#c89b3c" stroke-width="1"/><path d="M13 3v6M13 17v6M3 13h6M17 13h6" stroke="#c89b3c" stroke-width="1"/><circle cx="13" cy="13" r="2.4" fill="#c89b3c"/></svg>
+        Project Z
+      </div>
+      <div class="copyright">© 2026 Project Z. Built local-first, by design.<br>Made with SwiftUI · v1.0.0</div>
+    </div>
+    <div class="foot-links">
+      <a href="legal.html#privacy">Privacy Policy</a>
+      <a href="legal.html#terms">Terms of Service</a>
+      <a href="legal.html">Full Legal Charter</a>
+      <a href="#waitlist">Support</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const templates = {
+  "build a rocket": ["Define mission payload","Study propulsion basics","Choose engine class","Draft airframe geometry","Model center of gravity","Select recovery system","Source motor & materials","Assemble airframe","Wire ignition system","Ground test static fire","Pre-flight checklist","Launch window selection","First flight","Recover & inspect","Log flight data","Iterate design"],
+  "launch a podcast": ["Pick a core premise","Define your audience","Name the show","Choose a format","Source a microphone","Build a simple set","Write episode one","Record a pilot","Edit the pilot","Design cover art","Choose a host platform","Publish episode one","Create a release cadence","Pitch first guest","Share to three communities","Review first metrics"],
+  "learn piano": ["Learn note reading","Set hand position","Practice five-finger scales","Learn quarter & half notes","Play first simple piece","Introduce left-hand chords","Practice both hands together","Learn major scales","Study basic rhythm patterns","Play an intermediate piece","Learn pedal technique","Sight-read new music","Practice sight-singing","Play from memory","Perform for someone","Choose next repertoire"],
+  "ship a startup": ["Define the problem","Interview ten prospects","Sketch the smallest solution","Validate willingness to pay","Build a rough prototype","Get five users testing","Collect structured feedback","Cut to core feature","Set a launch date","Write launch copy","Open a waitlist","Ship version one","Onboard first cohort","Fix top three complaints","Set a pricing model","Plan the next iteration"],
+  "learn celestial navigation": ["Learn the celestial sphere","Identify key navigational stars","Practice using a sextant","Understand sight reduction","Learn the nautical almanac","Take a noon sun sight","Calculate a line of position","Practice star sights at twilight","Learn dead reckoning","Combine fixes with DR","Practice on land first","Take a real sight at sea","Cross-check with GPS","Log deviations","Refine sextant technique","Navigate a full passage"]
+};
+
+let toastTimeout;
+function showToast() {
+  const toast = document.getElementById('downloadToast');
+  toast.classList.add('show');
+  
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000); // Popup stays visible for 3 seconds
+}
+
+function quickPlot(name){ document.getElementById('goalInput').value = name; plotCourse(); }
+
+function plotCourse(){
+  const raw = document.getElementById('goalInput').value.trim();
+  if(!raw) return;
+  const key = raw.toLowerCase();
+  const status = document.getElementById('engineStatus');
+  status.textContent = "Plotting…";
+  let steps = templates[key];
+  if(!steps){
+    steps = ["Clarify the objective","Break down key skills","Gather core resources","Set a first milestone","Take the first small step","Review early progress","Refine the approach","Build momentum","Tackle the hardest part","Seek outside feedback","Course-correct as needed","Push past the midpoint","Polish the result","Prepare to share it","Ship or complete it","Reflect and set next goal"];
+  }
+  setTimeout(()=>{ drawChart(steps.slice(0, 10)); status.textContent = steps.length + " waypoints charted"; }, 260);
+}
+
+function drawChart(steps){
+  const svg = document.getElementById('chartSvg');
+  const w = 480, h = 460;
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  let nodes = [];
+  const n = steps.length;
+  const cx = w/2, cy = h/2, rBase = 150;
+  for(let i=0;i<n;i++){
+    const angle = (i / n) * Math.PI * 2 - Math.PI/2;
+    const wob = (i % 3 === 0) ? 20 : (i % 2 === 0 ? -14 : 6);
+    const r = rBase + wob;
+    nodes.push({x: cx + r*Math.cos(angle), y: cy + r*Math.sin(angle), label: steps[i]});
+  }
+  let lines = '';
+  for(let i=0;i<n-1;i++){
+    lines += `<line x1="${nodes[i].x}" y1="${nodes[i].y}" x2="${nodes[i+1].x}" y2="${nodes[i+1].y}" stroke="#5aa9a3" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.7"/>`;
+  }
+  let dots = '';
+  nodes.forEach((p, i) => {
+    const isFirst = i===0, isLast = i===n-1;
+    const fill = isFirst ? '#e0b658' : (isLast ? '#a85c48' : '#eee6d3');
+    const rad = isFirst || isLast ? 5 : 3.4;
+    const labelDx = p.x > cx ? 10 : -10;
+    const anchor = p.x > cx ? 'start' : 'end';
+    dots += `<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${fill}" stroke="#0a0e1a" stroke-width="1.5"/>`;
+    dots += `<text x="${p.x + labelDx}" y="${p.y+3}" text-anchor="${anchor}" class="waypoint-label">${String(i+1).padStart(2,'0')} · ${p.label.length>18? p.label.slice(0,17)+'…': p.label}</text>`;
+  });
+  svg.innerHTML = `
+    <circle cx="${cx}" cy="${cy}" r="${rBase+40}" fill="none" stroke="#26314a" stroke-width="1"/>
+    <circle cx="${cx}" cy="${cy}" r="${rBase-20}" fill="none" stroke="#26314a" stroke-width="1" stroke-dasharray="1 4"/>
+    ${lines}
+    ${dots}
+    <text x="${cx}" y="${cy-4}" text-anchor="middle" class="waypoint-title" fill="#b9b2a0">course</text>
+    <text x="${cx}" y="${cy+12}" text-anchor="middle" class="waypoint-label">${n} WAYPOINTS</text>
+  `;
+}
+
+// initial demo state
+drawChart(templates["ship a startup"].slice(0,10));
+</script>
+</body>
+</html>
