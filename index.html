@@ -362,11 +362,12 @@
         <h2>Chart your next course tonight.</h2>
         <p>Leave your email and we'll send an invite the moment your device rig qualifies. Requires iOS 17 or later and Apple Intelligence-capable silicon.</p>
       </div>
-      <div class="waitlist-form">
+      <!-- Wrap components in an actual form tag linked to your google form -->
+      <form class="waitlist-form" action="https://forms.gle/z3AtKCv2U83TrVPHA" method="GET" target="_blank">
         <input type="email" placeholder="Enter your email address" required aria-label="Email address">
-        <button class="btn" style="justify-content:center; width:100%; border:1px solid var(--brass); cursor:pointer;">Join the Voyage</button>
+        <button type="submit" class="btn" style="justify-content:center; width:100%; border:1px solid var(--brass); cursor:pointer;">Join the Voyage</button>
         <div class="fine">We'll only use your address to send an invite — see how in our <a href="legal.html#privacy">Privacy Policy</a>.</div>
-      </div>
+      </form>
     </div>
   </div>
 </section>
