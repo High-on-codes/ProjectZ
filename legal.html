@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Charter — Project Z</title>
+<meta name="description" content="Project Z's full legal charter: Privacy Policy, Terms of Service, and Cookie Policy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Spectral:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0e1a;
+    --panel:#101828;
+    --panel-2:#151f33;
+    --line:#26314a;
+    --parchment:#eee6d3;
+    --parchment-dim:#b9b2a0;
+    --brass:#c89b3c;
+    --brass-bright:#e0b658;
+    --verdigris:#5aa9a3;
+    --rosewood:#a85c48;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--ink);color:var(--parchment);
+    font-family:'Spectral', serif;font-size:17px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;font-weight:500;letter-spacing:-0.01em;color:var(--parchment);}
+  .mono{font-family:'IBM Plex Mono', monospace;letter-spacing:0.06em;text-transform:uppercase;font-size:0.72rem;}
+  a{color:var(--verdigris);}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+
+  .stars{position:fixed;inset:0;z-index:-2;background:
+      radial-gradient(1px 1px at 12% 22%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 12%, #fff6 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 34% 62%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 92% 48%, #fff5 50%, transparent 51%),
+      radial-gradient(1px 1px at 58% 84%, #fff7 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 8% 76%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 46% 8%, #fff5 50%, transparent 51%),
+      radial-gradient(1px 1px at 68% 92%, #fff6 50%, transparent 51%);
+    background-color:var(--ink);}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(10,14,26,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:1160px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;text-decoration:none;}
+  .brand-mark{width:26px;height:26px;flex:none;}
+  .back{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);}
+  .back:hover{color:var(--brass-bright);}
+
+  .legal-hero{padding:64px 0 40px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.74rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--verdigris);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--verdigris);display:inline-block;}
+  .legal-hero h1{font-size:clamp(2rem,4.4vw,3.1rem);margin:0 0 16px;}
+  .legal-hero p{color:var(--parchment-dim);max-width:640px;margin:0 0 8px;}
+  .revision{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--parchment-dim);letter-spacing:0.04em;}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;gap:64px;padding:64px 0 120px;align-items:start;}
+  @media(max-width:900px){.layout{grid-template-columns:1fr;}}
+
+  .toc{position:sticky;top:90px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px;}
+  @media(max-width:900px){.toc{position:static;}}
+  .toc-title{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--brass-bright);margin-bottom:14px;}
+  .toc-group{margin-bottom:18px;}
+  .toc-group-label{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--parchment-dim);margin-bottom:8px;}
+  .toc a{display:block;font-size:0.86rem;color:var(--parchment-dim);text-decoration:none;padding:5px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
+  .toc a:hover{color:var(--parchment);border-left-color:var(--brass);}
+
+  .doc{max-width:760px;}
+  .doc-section{margin-bottom:12px;padding:44px 0;border-bottom:1px solid var(--line);}
+  .doc-section:first-child{padding-top:0;}
+  .doc-part-title{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .doc-part-title h2{font-size:1.9rem;margin:0;}
+  .doc-part-sub{color:var(--parchment-dim);font-size:0.95rem;margin:0 0 36px;}
+
+  .article{margin-bottom:34px;}
+  .article:last-child{margin-bottom:0;}
+  .article-num{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--verdigris);letter-spacing:0.06em;margin-bottom:8px;}
+  .article h3{font-size:1.2rem;margin:0 0 12px;}
+  .article p{color:var(--parchment-dim);margin:0 0 12px;font-size:0.98rem;}
+  .article ul{color:var(--parchment-dim);font-size:0.98rem;padding-left:20px;margin:0 0 12px;}
+  .article li{margin-bottom:6px;}
+  .article strong{color:var(--parchment);font-weight:600;}
+
+  table.data-table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:0.88rem;}
+  table.data-table th, table.data-table td{border:1px solid var(--line);padding:10px 12px;text-align:left;color:var(--parchment-dim);}
+  table.data-table th{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--brass-bright);background:var(--panel-2);}
+  table.data-table td:first-child{color:var(--parchment);}
+
+  .callout{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--brass);padding:18px 20px;border-radius:var(--radius);font-size:0.92rem;color:var(--parchment-dim);margin:18px 0;}
+  .callout strong{color:var(--brass-bright);}
+
+  .contact-card{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:30px;margin-top:20px;}
+  .contact-card .kv{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;padding:9px 0;border-top:1px solid var(--line);color:var(--parchment-dim);}
+  .contact-card .kv:first-child{border-top:none;}
+  .contact-card .kv span:last-child{color:var(--parchment);}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;}
+  .foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;}
+  .copyright{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--parchment-dim);}
+  .foot-links{display:flex;gap:22px;}
+  .foot-links a{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--parchment-dim);text-decoration:none;}
+  .foot-links a:hover{color:var(--brass-bright);}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" stroke="#c89b3c" stroke-width="1"/><path d="M13 3v6M13 17v6M3 13h6M17 13h6" stroke="#c89b3c" stroke-width="1"/><circle cx="13" cy="13" r="2.4" fill="#c89b3c"/></svg>
+      Project Z
+    </a>
+    <a class="back" href="index.html">← Back to the app</a>
+  </div>
+</nav>
+
+<header class="legal-hero">
+  <div class="wrap">
+    <div class="eyebrow">The Legal Charter</div>
+    <h1>Privacy Policy, Terms of Service &amp; Cookie Policy</h1>
+    <p>Everything governing your use of Project Z, written out in full rather than buried in a settings menu. If a section matters to your decision to use the app, it's here.</p>
+    <p class="revision">Last revised: July 1, 2026 · Version 4.1 · Applies to Project Z for iOS, this website, and our beta waitlist</p>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout">
+  <aside class="toc">
+    <div class="toc-title">On this page</div>
+    <div class="toc-group">
+      <div class="toc-group-label">Privacy Policy</div>
+      <a href="#privacy">Overview</a>
+      <a href="#privacy-collect">Information we collect</a>
+      <a href="#privacy-not-collect">Information we do not collect</a>
+      <a href="#privacy-ondevice">How on-device processing works</a>
+      <a href="#privacy-third-party">Third-party services</a>
+      <a href="#privacy-retention">Retention &amp; deletion</a>
+      <a href="#privacy-rights">Your rights (GDPR/CCPA/UK)</a>
+      <a href="#privacy-transfers">International transfers</a>
+      <a href="#privacy-children">Children's privacy</a>
+      <a href="#privacy-security">Security measures</a>
+      <a href="#privacy-changes">Changes to this policy</a>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-label">Terms of Service</div>
+      <a href="#terms">Acceptance of terms</a>
+      <a href="#terms-license">License grant &amp; restrictions</a>
+      <a href="#terms-payments">Subscriptions &amp; in-app purchases</a>
+      <a href="#terms-conduct">Acceptable use</a>
+      <a href="#terms-ip">Intellectual property</a>
+      <a href="#terms-warranty">Disclaimer of warranties</a>
+      <a href="#terms-liability">Limitation of liability</a>
+      <a href="#terms-indemnity">Indemnification</a>
+      <a href="#terms-termination">Termination</a>
+      <a href="#terms-law">Governing law &amp; disputes</a>
+      <a href="#terms-changes">Changes to these terms</a>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-label">More</div>
+      <a href="#cookies">Cookie policy</a>
+      <a href="#accessibility">Accessibility statement</a>
+      <a href="#contact">Contact us</a>
+    </div>
+  </aside>
+
+  <div class="doc">
+
+    <div class="doc-section" id="privacy">
+      <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part I</span><h2>Privacy Policy</h2></div>
+      <p class="doc-part-sub">Effective July 1, 2026. This policy explains what Project Z does and does not do with your data, in plain terms first and precise terms second.</p>
+
+      <div class="article" id="privacy-collect-anchor">
+        <div class="article-num">§1</div>
+        <h3>Overview</h3>
+        <p>Project Z is built as a local-first application. Our design goal is simple: the content of your goals and courses should never need to leave your device to be useful. This policy covers the Project Z iOS app, this website, and our beta waitlist form.</p>
+        <div class="callout"><strong>In short:</strong> we do not operate a server that stores your goals, your courses, or your usage activity. The only personal information we ever hold is the email address you choose to give us for the beta waitlist.</div>
+      </div>
+
+      <div class="article" id="privacy-collect">
+        <div class="article-num">§2</div>
+        <h3>Information we collect</h3>
+        <p>We collect the minimum needed to run a waitlist and, later, to process optional subscription payments:</p>
+        <table class="data-table">
+          <tr><th>Data</th><th>When</th><th>Purpose</th><th>Where it's stored</th></tr>
+          <tr><td>Email address</td><td>You submit our intake form</td><td>Send your beta invite</td><td>Local Database (secured processor)</td></tr>
+          <tr><td>App Store transaction ID</td><td>You purchase a subscription</td><td>Validate purchase, manage renewals</td><td>Apple, Inc. (as merchant of record)</td></tr>
+          <tr><td>Crash diagnostics (opt-in)</td><td>Only if you enable it in iOS Settings</td><td>Fix bugs</td><td>Apple's crash reporting pipeline, not ours</td></tr>
+        </table>
+        <p>We never ask for your name, contact list, location, photos, or device identifiers, and the app does not request any permission it doesn't need to function.</p>
+      </div>
+
+      <div class="article" id="privacy-not-collect">
+        <div class="article-num">§3</div>
+        <h3>Information we do not collect</h3>
+        <ul>
+          <li>The goals, prompts, or courses you generate inside the app</li>
+          <li>Your usage patterns, session length, or feature interactions</li>
+          <li>Advertising identifiers or any data used for ad targeting</li>
+          <li>Precise or approximate location</li>
+          <li>Contacts, photos, or other device content</li>
+        </ul>
+        <p>We do not sell, rent, monetize, or share this category of data — because we never have access to it in the first place. There is no analytics SDK, no ad network SDK, and no third-party crash reporter bundled into the app.</p>
+      </div>
+
+      <div class="article" id="privacy-ondevice">
+        <div class="article-num">§4</div>
+        <h3>How on-device processing works</h3>
+        <p>When you type a goal, Project Z runs inference locally using Apple's on-device intelligence frameworks. No network socket is opened during generation. The resulting course is written to a sandboxed SwiftData store that is unique to your installation of the app and is included in your device's standard encrypted backups (iCloud or local), governed by Apple's own backup encryption — not by us.</p>
+        <p>Because generation happens on-device, we have no visibility into what you type, what courses are generated, or how you use them. We cannot recover this data for you if it's lost, since we never had a copy.</p>
+      </div>
+
+      <div class="article" id="privacy-third-party">
+        <div class="article-num">§5</div>
+        <h3>Third-party services &amp; data sharing</h3>
+        <p>We rely on a small number of third parties strictly for functions we don't build ourselves:</p>
+        <ul>
+          <li><strong>Processing Engine</strong> — collects waitlist email submissions securely from our intake form. We retain waitlist emails only as long as needed to send your invite, and we remove entries from the database on request.</li>
+          <li><strong>Apple, Inc.</strong> — processes App Store purchases, subscription billing, and (if you opt in) crash diagnostics, under Apple's own privacy terms. We receive only an anonymized, aggregated purchase confirmation — never your card details.</li>
+        </ul>
+        <p>We do not use any advertising network, analytics platform, or data broker. We have never sold personal information and we do not intend to.</p>
+      </div>
+
+      <div class="article" id="privacy-retention">
+        <div class="article-num">§6</div>
+        <h3>Data retention &amp; deletion</h3>
+        <p>Waitlist email addresses are retained until your invite is sent and for up to 12 months afterward for support purposes, unless you ask us to delete it sooner. Course and goal data never reaches us, so there is nothing on our servers to delete — deleting the app from your device, or deleting a course inside it, removes that data completely and immediately, including from any iCloud backup on your next sync.</p>
+        <p>To request early deletion of your waitlist email, contact us using the details in <a href="#contact">§ Contact Us</a>.</p>
+      </div>
+
+      <div class="article" id="privacy-rights">
+        <div class="article-num">§7</div>
+        <h3>Your rights (GDPR, UK GDPR, and CCPA/CPRA)</h3>
+        <p>Depending on where you live, you may have the right to:</p>
+        <ul>
+          <li>Request access to the personal data we hold about you (in practice, this is limited to your waitlist email and purchase confirmation, if any)</li>
+          <li>Request correction or deletion of that data</li>
+          <li>Object to or restrict our processing of it</li>
+          <li>Request a portable copy of it</li>
+          <li>Withdraw consent at any time, without affecting the app's core functionality</li>
+          <li>Lodge a complaint with your local data protection authority</li>
+        </ul>
+        <p>Because Project Z does not sell personal information and does not use your data for cross-context behavioral advertising, there is no "opt out of sale" flow to run — there is nothing being sold. Residents may still submit a rights request as described in <a href="#contact">§ Contact Us</a>, and we will respond within the timeframe required by applicable law.</p>
+      </div>
+
+      <div class="article" id="privacy-transfers">
+        <div class="article-num">§8</div>
+        <h3>International data transfers</h3>
+        <p>Waitlist emails processed may be transferred to and stored securely on infrastructure using standard contractual clauses and safeguards for cross-border processing. Because your goal and course content never leaves your device, no international transfer of that content ever occurs.</p>
+      </div>
+
+      <div class="article" id="privacy-children">
+        <div class="article-num">§9</div>
+        <h3>Children's privacy</h3>
+        <p>Project Z is not directed at children under 13 (or the equivalent minimum age in your jurisdiction), and we do not knowingly collect personal information from children. Because our waitlist only asks for an email address and the app itself collects no personal data at all, the practical exposure is minimal — but if you believe a child has submitted an email to our waitlist, contact us and we will delete it promptly.</p>
+      </div>
+
+      <div class="article" id="privacy-security">
+        <div class="article-num">§10</div>
+        <h3>Security measures</h3>
+        <p>Waitlist submissions are encrypted in transit via TLS. On-device data is protected by iOS's sandboxing and file-system encryption. Because we do not operate a central database of user content, there is no central store of your course data for anyone to breach. No transmission or storage system is completely immune to risk, and we cannot guarantee absolute security, but our architecture is deliberately designed to minimize what could ever be exposed.</p>
+      </div>
+
+      <div class="article" id="privacy-changes">
+        <div class="article-num">§11</div>
+        <h3>Changes to this policy</h3>
+        <p>If we change this policy in a way that materially affects your rights, we will update the "Last revised" date above and, where required by law, notify you through the app or the email on file. We encourage you to review this page periodically.</p>
+      </div>
+    </div>
+
+    <div class="doc-section" id="terms">
+      <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part II</span><h2>Terms of Service</h2></div>
+      <p class="doc-part-sub">Effective July 1, 2026. By downloading, installing, or using Project Z, you agree to the terms below.</p>
+
+      <div class="article">
+        <div class="article-num">§1</div>
+        <h3>Acceptance of terms</h3>
+        <p>These Terms of Service form a binding agreement between you and Project Z's publisher. If you do not agree to them, do not download, install, or use the app. Continued use of the app after a posted update to these terms constitutes acceptance of the revised terms.</p>
+      </div>
+
+      <div class="article" id="terms-license">
+        <div class="article-num">§2</div>
+        <h3>License grant &amp; restrictions</h3>
+        <p>We grant you a single, non-exclusive, non-transferable, revocable license to install and run Project Z on Apple devices that you own or control, for your personal, non-commercial use, subject to Apple's standard licensed application end user license agreement.</p>
+        <p>You may not: reverse-engineer, decompile, or disassemble the app except where permitted by law; resell, sublicense, or commercially exploit the app or its output; use the app to build a competing product; or circumvent any technical measure that restricts access to paid features.</p>
+      </div>
+
+      <div class="article" id="terms-payments">
+        <div class="article-num">§3</div>
+        <h3>Subscriptions &amp; in-app purchases</h3>
+        <p>Certain advanced course-tracking and analytics features are offered under a premium subscription tier, billed and managed exclusively through Apple's In-App Purchase system.</p>
+        <ul>
+          <li>Subscriptions renew automatically unless canceled at least 24 hours before the end of the current period.</li>
+          <li>Payment is charged to your Apple ID account at confirmation of purchase.</li>
+          <li>You can manage or cancel your subscription in your device's Settings &gt; Apple ID &gt; Subscriptions at any time.</li>
+          <li>Refunds are handled by Apple under its own refund policy; we do not process refunds directly.</li>
+          <li>Prices may vary by region and are subject to change with notice before your next renewal.</li>
+        </ul>
+      </div>
+
+      <div class="article" id="terms-conduct">
+        <div class="article-num">§4</div>
+        <h3>Acceptable use</h3>
+        <p>You agree not to use Project Z to generate, store, or distribute content that is unlawful, infringing, or intended to harass or harm others, and not to attempt to interfere with the app's operation or security, including through automated scraping, jailbreak-specific exploitation, or credential abuse against Apple's platform services.</p>
+      </div>
+
+      <div class="article" id="terms-ip">
+        <div class="article-num">§5</div>
+        <h3>Intellectual property</h3>
+        <p>Project Z, its name, logo, interface design, and underlying software are the property of its publisher and are protected by copyright, trademark, and other applicable laws. Course content you generate is yours; we claim no ownership over the specific goals, prompts, or courses you create, and — because that content stays on your device — we have no ability to access, use, or reproduce it.</p>
+      </div>
+
+      <div class="article" id="terms-warranty">
+        <div class="article-num">§6</div>
+        <h3>Disclaimer of warranties</h3>
+        <p>The app is provided "as is" and "as available," without warranties of any kind, whether express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that generated courses will be accurate, complete, or suitable for your specific circumstances, or that the app will be uninterrupted, error-free, or free of data loss resulting from device failure, operating system crashes, or user error.</p>
+      </div>
+
+      <div class="article" id="terms-liability">
+        <div class="article-num">§7</div>
+        <h3>Limitation of liability</h3>
+        <p>To the maximum extent permitted by law, the publisher of Project Z will not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of data, goodwill, or profits, arising from your use of or inability to use the app, even if advised of the possibility of such damages. Our total aggregate liability for any claim relating to the app will not exceed the amount you paid us, if any, in the twelve months preceding the claim.</p>
+      </div>
+
+      <div class="article" id="terms-indemnity">
+        <div class="article-num">§8</div>
+        <h3>Indemnification</h3>
+        <p>You agree to indemnify and hold harmless the publisher of Project Z from any claims, damages, or expenses arising from your violation of these terms or your misuse of the app.</p>
+      </div>
+
+      <div class="article" id="terms-termination">
+        <div class="article-num">§9</div>
+        <h3>Termination</h3>
+        <p>You may stop using Project Z at any time by deleting the app. We may suspend or terminate your access to premium features if you violate these terms, though because course content lives on your device, deletion of access does not delete your existing local data.</p>
+      </div>
+
+      <div class="article" id="terms-law">
+        <div class="article-num">§10</div>
+        <h3>Governing law &amp; dispute resolution</h3>
+        <p>These terms are governed by the laws of the jurisdiction in which the publisher is established, without regard to conflict-of-law principles, except where local consumer-protection law requires otherwise. Disputes will first be addressed through good-faith informal negotiation; if unresolved, either party may pursue claims in the courts of competent jurisdiction, subject to any mandatory arbitration or small-claims rights available to you under local law.</p>
+      </div>
+
+      <div class="article" id="terms-changes">
+        <div class="article-num">§11</div>
+        <h3>Changes to these terms</h3>
+        <p>We may update these terms from time to time. Material changes will be reflected in the "Last revised" date at the top of this page, and where required, we will provide additional notice through the app.</p>
+      </div>
+    </div>
+
+    <div class="doc-section" id="cookies">
+      <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part III</span><h2>Cookie &amp; Tracking Policy</h2></div>
+      <p class="doc-part-sub">Covers this website only. The Project Z iOS app contains no cookies, web views, or tracking SDKs of any kind.</p>
+      <div class="article">
+        <div class="article-num">§1</div>
+        <h3>What this site uses</h3>
+        <p>This website does not set analytics, advertising, or third-party tracking cookies. It uses only what's strictly necessary to render pages. No cross-site tracking, fingerprinting, or ad pixel is present.</p>
+      </div>
+      <div class="article">
+        <div class="article-num">§2</div>
+        <h3>Your choices</h3>
+        <p>Because we don't deploy optional or advertising cookies, there's no consent banner to manage.</p>
+      </div>
+    </div>
+
+    <div class="doc-section" id="accessibility">
+      <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part IV</span><h2>Accessibility Statement</h2></div>
+      <div class="article">
+        <div class="article-num">§1</div>
+        <h3>Our commitment</h3>
+        <p>We aim for this site and the Project Z app to be usable with VoiceOver, Dynamic Type, and Reduce Motion enabled. If you encounter a barrier using either, please tell us — accessibility issues are treated as priority bugs, not feature requests.</p>
+      </div>
+    </div>
+
+    <div class="doc-section" id="contact" style="border-bottom:none;">
+      <div class="doc-part-title"><span class="mono" style="color:var(--brass-bright)">Part V</span><h2>Contact Us</h2></div>
+      <p class="doc-part-sub">Questions about this charter, data requests, or anything else legal — reach us directly.</p>
+      <div class="contact-card">
+        <div class="kv"><span>General &amp; privacy inquiries</span><span>support.projectz@gmail.com</span></div>
+        <div class="kv"><span>Data deletion requests</span><span>support.projectz@gmail.com — subject line "Data Deletion"</span></div>
+        <div class="kv"><span>Response time</span><span>Within 30 days, typically much sooner</span></div>
+        <div class="kv"><span>Governing document version</span><span>v4.1 — July 1, 2026</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="copyright">© 2026 Project Z. Built local-first, by design.</div>
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms of Service</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
