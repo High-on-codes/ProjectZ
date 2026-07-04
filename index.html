@@ -165,7 +165,7 @@
   .kv{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;padding:8px 0;border-top:1px solid var(--line);color:var(--parchment-dim);}
   .kv span:last-child{color:var(--parchment);}
 
-  /* waitlist */
+  /* waitlist & support */
   .waitlist{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:56px;display:flex;gap:56px;justify-content:space-between;align-items:center;flex-wrap:wrap;}
   .waitlist-copy{max-width:440px;}
   .waitlist-copy h2{font-size:1.9rem;margin:0 0 14px;}
@@ -237,7 +237,6 @@
 <body>
 <div class="stars"></div>
 
-<!-- toast structure -->
 <div id="downloadToast" class="toast-popup">your missioncraft will be ready soon!</div>
 
 <nav>
@@ -250,7 +249,7 @@
       <a href="#pillars">Charts</a>
       <a href="#demo">Plot a Course</a>
       <a href="#architecture">Construction</a>
-      <a href="#waitlist">Voyage</a>
+      <a href="#waitlist">Voyage &amp; Support</a>
       <a href="legal.html">Legal</a>
     </div>
     <a class="btn" href="#waitlist">Get the App</a>
@@ -376,18 +375,17 @@
   <div class="wrap">
     <div class="waitlist">
       <div class="waitlist-copy">
-        <div class="eyebrow">Beta Cohort Intake</div>
+        <div class="eyebrow">Beta Cohort Intake &amp; Support</div>
         <h2>Chart your next course tonight.</h2>
-        <p>Leave your email and we'll send an invite the moment your device rig qualifies. Requires iOS 17 or later and Apple Intelligence-capable silicon.</p>
+        <p>Leave your email and we'll send an invite or help track down your registration query. Requires iOS 17 or later and Apple Intelligence silicon.</p>
       </div>
       <div class="waitlist-form">
         <form id="waitlistForm" action="https://formspree.io/f/mwvdndew" method="POST" style="display:contents;">
           <input type="email" name="email" placeholder="Enter your email address" required aria-label="Email address">
           <button type="submit" id="submitBtn" class="btn" style="justify-content:center; width:100%; border:1px solid var(--brass); cursor:pointer;">Join the Voyage</button>
         </form>
-        <!-- Confirmation dynamic label container directly below join action -->
         <div id="formStatusMessage"></div>
-        <div class="fine">We'll only use your address to send an invite — see how in our <a href="legal.html#privacy">Privacy Policy</a>.</div>
+        <div class="fine">Need application assistance? Drop your email above or view our <a href="legal.html#privacy">Privacy Policy</a>.</div>
       </div>
     </div>
   </div>
@@ -431,7 +429,6 @@ function showToast() {
   }, 3000);
 }
 
-// Formspree API script handling inline async submissions
 const form = document.getElementById("waitlistForm");
 const statusMessage = document.getElementById("formStatusMessage");
 const submitBtn = document.getElementById("submitBtn");
@@ -524,7 +521,6 @@ function drawChart(steps){
   `;
 }
 
-// initial demo state
 drawChart(templates["ship a startup"].slice(0,10));
 </script>
 </body>
