@@ -45,25 +45,15 @@
     position:relative;z-index:10;
   }
   
-  /* Animated 3D Z Logo */
+  /* Static Z Logo for Loading Screen */
   .logo-constellation{
     position:relative;
     width:280px;height:280px;
     display:flex;align-items:center;justify-content:center;
-    animation:floatZ 4s ease-in-out infinite;
-  }
-  @keyframes floatZ{
-    0%, 100%{transform:translateY(0px) scale(1);}
-    50%{transform:translateY(-20px) scale(1.05);}
   }
   .z-logo-3d{
     width:100%;height:100%;
-    filter:drop-shadow(0 20px 60px rgba(224, 182, 88, 0.4));
-    animation:rotateZ 6s linear infinite;
-  }
-  @keyframes rotateZ{
-    0%{transform:rotateY(0deg) rotateX(5deg);}
-    100%{transform:rotateY(360deg) rotateX(5deg);}
+    filter:drop-shadow(0 10px 20px rgba(224, 182, 88, 0.2));
   }
   
   /* Loading text */
@@ -74,7 +64,6 @@
     text-transform:uppercase;
     color:var(--parchment-dim);
     text-align:center;
-    animation:fadeInText 1s ease-out 0.5s both;
   }
   .loading-text .text-primary{
     display:block;
@@ -93,10 +82,6 @@
   @keyframes pulse-dot{
     0%, 60%, 100%{opacity:0.2;}
     30%{opacity:1;}
-  }
-  @keyframes fadeInText{
-    from{opacity:0;transform:translateY(10px);}
-    to{opacity:1;transform:translateY(0);}
   }
 
   *{box-sizing:border-box;}
@@ -129,26 +114,14 @@
   img,svg{display:block;max-width:100%;}
   .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
 
-  /* starfield */
+  /* Optimized Starfield background */
   .stars{
     position:fixed;inset:0;z-index:-2;
-    background:
-      radial-gradient(1px 1px at 12% 22%, #fff8 50%, transparent 51%),
-      radial-gradient(1px 1px at 78% 12%, #fff6 50%, transparent 51%),
-      radial-gradient(1.5px 1.5px at 34% 62%, #fff9 50%, transparent 51%),
-      radial-gradient(1px 1px at 92% 48%, #fff5 50%, transparent 51%),
-      radial-gradient(1px 1px at 58% 84%, #fff7 50%, transparent 51%),
-      radial-gradient(1.5px 1.5px at 8% 76%, #fff9 50%, transparent 51%),
-      radial-gradient(1px 1px at 46% 8%, #fff5 50%, transparent 51%),
-      radial-gradient(1px 1px at 68% 92%, #fff6 50%, transparent 51%),
-      radial-gradient(1.5px 1.5px at 24% 44%, #fffa 50%, transparent 51%),
-      radial-gradient(1px 1px at 88% 74%, #fff5 50%, transparent 51%);
-    background-size:100% 100%;
     background-color:var(--ink);
   }
   .stars::after{
     content:"";position:absolute;inset:0;
-    background:radial-gradient(ellipse at 50% -10%, #1a2540 0%, transparent 55%);
+    background:radial-gradient(ellipse at 50% -10%, #1a2540 0%, transparent 65%);
   }
 
   /* nav */
@@ -170,9 +143,9 @@
     padding:11px 20px;border-radius:var(--radius);
     text-decoration:none;border:1px solid var(--brass);
     color:var(--ink);background:var(--brass);
-    transition:transform .15s ease, background .2s;
+    transition:background .2s;
   }
-  .btn:hover{background:var(--brass-bright);transform:translateY(-1px);}
+  .btn:hover{background:var(--brass-bright);}
   .btn.ghost{background:transparent;color:var(--brass-bright);}
   .btn.ghost:hover{background:rgba(200,155,60,0.1);}
 
@@ -254,7 +227,6 @@
   .waitlist-form input{background:var(--ink);border:1px solid var(--line);color:var(--parchment);font-family:'Spectral',serif;padding:13px 16px;border-radius:var(--radius);}
   .waitlist-form input:focus{outline:none;border-color:var(--brass);}
   
-  /* Form Honeypot Protection */
   .hidden-field {
     position: absolute !important;
     left: -5000px !important;
@@ -269,7 +241,6 @@
   .fine{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--parchment-dim);letter-spacing:0.02em;text-transform:none;}
   .fine a{color:var(--verdigris);text-decoration:underline;}
 
-  /* Form Message Output Display */
   #formStatusMessage {
     font-family:'IBM Plex Mono', monospace;
     font-size: 0.72rem;
@@ -287,7 +258,6 @@
     color: var(--rosewood);
   }
 
-  /* toast popup style */
   .toast-popup{
     position:fixed;
     bottom:-60px;
@@ -319,22 +289,6 @@
   .foot-links a{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);}
   .foot-links a:hover{color:var(--brass-bright);}
   .copyright{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--parchment-dim);margin-top:18px;}
-
-  /* Page Entrance Animations using JS state context */
-  header.hero{animation:fadeInUp 0.9s ease-out 0.3s both;}
-  header.hero .stat-row{animation:fadeInUp 0.9s ease-out 0.6s both;}
-  
-  .js-enabled section{opacity:0;}
-  .js-enabled .pillar, .js-enabled .arch-card, .js-enabled .stat{opacity:0;}
-  
-  @keyframes fadeInUp{
-    from{opacity:0;transform:translateY(30px);}
-    to{opacity:1;transform:translateY(0);}
-  }
-  @keyframes fadeInScale{
-    from{opacity:0;transform:scale(0.95) translateY(20px);}
-    to{opacity:1;transform:scale(1) translateY(0);}
-  }
 
   @media(max-width:860px){
     .stat-row{grid-template-columns:repeat(2,1fr);}
@@ -368,15 +322,8 @@
               <stop offset="50%" style="stop-color:#c89b3c;stop-opacity:1" />
               <stop offset="100%" style="stop-color:#a8860f;stop-opacity:1" />
             </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
           </defs>
-          <path d="M 35 25 L 145 25 L 55 135 L 145 135" stroke="url(#zGradient)" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+          <path d="M 35 25 L 145 25 L 55 135 L 145 135" stroke="url(#zGradient)" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <!-- Right side depth -->
         <g opacity="0.4">
@@ -437,17 +384,17 @@
       <p>Project Z isn't another checklist. It's a small set of instruments, each doing one job precisely.</p>
     </div>
     <div class="pillars">
-      <div class="pillar" data-animation="fadeInScale 0.6s ease-out forwards">
+      <div class="pillar">
         <svg class="glyph" viewBox="0 0 40 40" fill="none"><path d="M20 4l3.5 11H35l-9.3 6.8L29 33 20 26 11 33l3.3-11.2L5 15h11.5z" stroke="#e0b658" stroke-width="1.2" fill="none"/></svg>
         <h3>Celestial Mapping</h3>
         <p>Give it any discipline — orbital mechanics or oil painting — and the on-device engine lays out an ordered course of 15 to 30 waypoints, shaped to that specific goal.</p>
       </div>
-      <div class="pillar" data-animation="fadeInScale 0.6s ease-out forwards">
+      <div class="pillar">
         <svg class="glyph" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="15" stroke="#e0b658" stroke-width="1.2"/><circle cx="20" cy="20" r="4" stroke="#e0b658" stroke-width="1.2"/><path d="M20 5v6M20 29v6M5 20h6M29 20h6" stroke="#e0b658" stroke-width="1.2"/></svg>
         <h3>Absolute Privacy</h3>
         <p>A local-first sandbox, full stop. No cloud database, no telemetry, no account. Every waypoint you chart is owned, stored, and processed on your device alone.</p>
       </div>
-      <div class="pillar" data-animation="fadeInScale 0.6s ease-out forwards">
+      <div class="pillar">
         <svg class="glyph" viewBox="0 0 40 40" fill="none"><path d="M6 30 L20 8 L34 30 Z" stroke="#e0b658" stroke-width="1.2"/><path d="M14 24h12" stroke="#e0b658" stroke-width="1.2"/></svg>
         <h3>An Instrument, Not a Toy</h3>
         <p>A quiet, high-precision interface for builders who notice detail — brass-toned panels, cartographic type, and motion tuned to feel like a real instrument.</p>
@@ -498,7 +445,7 @@
       <p>Project Z is written entirely in SwiftUI with a sandboxed SwiftData layer — no third-party backend, no remote API for your data to pass through.</p>
     </div>
     <div class="arch-grid">
-      <div class="arch-card" data-animation="fadeInScale 0.6s ease-out forwards">
+      <div class="arch-card">
         <div class="tag">Layer 01 — Interface</div>
         <h3>SwiftUI Native Execution</h3>
         <p>Every view is rendered through Apple's native declarative framework — no WebView wrapper, no cross-platform compromise.</p>
@@ -506,7 +453,7 @@
         <div class="kv"><span>Min. target</span><span>iOS 17.0</span></div>
         <div class="kv"><span>Frame budget</span><span>≤ 8.3ms</span></div>
       </div>
-      <div class="arch-card" data-animation="fadeInScale 0.6s ease-out forwards">
+      <div class="arch-card">
         <div class="tag">Layer 02 — Memory</div>
         <h3>SwiftData Local Cache</h3>
         <p>Charts are parsed and persisted through a sandboxed on-device model layer, built for instantaneous read and write with zero lag.</p>
@@ -514,7 +461,7 @@
         <div class="kv"><span>Network calls</span><span>0</span></div>
         <div class="kv"><span>Sync target</span><span>None</span></div>
       </div>
-      <div class="arch-card" data-animation="fadeInScale 0.6s ease-out forwards">
+      <div class="arch-card">
         <div class="tag">Layer 03 — Engine</div>
         <h3>On-Device Generation Core</h3>
         <p>The chart engine runs its inference locally, ordering waypoints by dependency rather than difficulty alone.</p>
@@ -568,11 +515,8 @@
 </footer>
 
 <script>
-// Safely inject js-enabled framework layout flag
-document.documentElement.classList.add('js-enabled');
-
-// Constellation Canvas Animation
-function initConstellationCanvas() {
+// Static presentation background star rendering
+function initStaticStars() {
   const canvas = document.getElementById('loadingCanvas');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -580,77 +524,19 @@ function initConstellationCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   
-  const particles = [];
-  const particleCount = 80;
+  // Clean single paint operation for initial backing texture
+  ctx.fillStyle = '#0a0e1a';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   
-  class Particle {
-    constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 0.5;
-      this.vy = (Math.random() - 0.5) * 0.5;
-      this.radius = Math.random() * 1.5 + 0.5;
-      this.opacity = Math.random() * 0.5 + 0.2;
-    }
-    
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      
-      if (this.x < 0) this.x = canvas.width;
-      if (this.x > canvas.width) this.x = 0;
-      if (this.y < 0) this.y = canvas.height;
-      if (this.y > canvas.height) this.y = 0;
-    }
-    
-    draw() {
-      ctx.fillStyle = `rgba(224, 182, 88, ${this.opacity})`;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowColor = 'rgba(224, 182, 88, 0.6)';
-      ctx.shadowBlur = 8;
-    }
+  ctx.fillStyle = 'rgba(224, 182, 88, 0.4)';
+  for (let i = 0; i < 40; i++) {
+    ctx.beginPath();
+    ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5 + 0.5, 0, Math.PI * 2);
+    ctx.fill();
   }
-  
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-  }
-  
-  function animate() {
-    ctx.fillStyle = 'rgba(10, 14, 26, 0.02)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    particles.forEach(p => {
-      p.update();
-      p.draw();
-    });
-    
-    // Draw constellation lines
-    ctx.strokeStyle = 'rgba(224, 182, 88, 0.08)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 150) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-    
-    requestAnimationFrame(animate);
-  }
-  
-  animate();
 }
 
-// Graceful loading exit logic
+// Graceful loading removal sequence execution
 window.addEventListener('load', function() {
   const loadingOverlay = document.getElementById('loadingOverlay');
   setTimeout(() => {
@@ -661,8 +547,7 @@ window.addEventListener('load', function() {
   }, 2200);
 });
 
-// Initialize elements safely
-document.addEventListener('DOMContentLoaded', initConstellationCanvas);
+document.addEventListener('DOMContentLoaded', initStaticStars);
 
 const templates = {
   "build a rocket": ["Define mission payload","Study propulsion basics","Choose engine class","Draft airframe geometry","Model center of gravity","Select recovery system","Source motor & materials","Assemble airframe","Wire ignition system","Ground test static fire","Pre-flight checklist","Launch window selection","First flight","Recover & inspect","Log flight data","Iterate design"],
@@ -692,10 +577,8 @@ if (form) {
   form.addEventListener("submit", async function(event) {
     event.preventDefault();
     
-    // Immediate anti-bot protection screening
     const honeypot = form.querySelector('input[name="_gotcha"]');
     if (honeypot && honeypot.value !== "") {
-      // Quietly reject bot input vector without sending request
       statusMessage.textContent = "Transmission complete. Welcome to the cohort.";
       statusMessage.className = "success";
       form.reset();
@@ -797,70 +680,6 @@ function drawChart(steps){
 }
 
 drawChart(templates["ship a startup"].slice(0,10));
-
-// Scroll Animation Handler using modern progressive context
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver(function(entries) {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.animation = entry.target.dataset.animation || 'fadeInUp 0.8s ease-out forwards';
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-// Observe all animated elements safely
-document.querySelectorAll('.js-enabled .pillar, .js-enabled .arch-card, .js-enabled section').forEach(el => {
-  observer.observe(el);
-});
-
-// Smooth hover architecture interactions
-document.querySelectorAll('.pillar, .arch-card').forEach(card => {
-  card.addEventListener('mouseenter', function() {
-    this.style.transform = 'translateY(-8px)';
-    this.style.transition = 'transform 0.3s ease-out';
-  });
-  card.addEventListener('mouseleave', function() {
-    this.style.transform = 'translateY(0)';
-  });
-});
-
-// Pulse metric counters upon frame view entry
-document.querySelectorAll('.stat').forEach(stat => {
-  const observer2 = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const numEl = entry.target.querySelector('.num');
-        if (numEl && !numEl.classList.contains('animated')) {
-          numEl.classList.add('animated');
-          const text = numEl.textContent;
-          if (text !== '0' && text !== '100%') {
-            numEl.style.animation = 'pulse 0.6s ease-out';
-          }
-        }
-        observer2.unobserve(entry.target);
-      }
-    });
-  }, {threshold: 0.5});
-  observer2.observe(stat);
-});
-
-// Add keyframe styling node structures dynamically
-const styleNode = document.createElement('style');
-styleNode.textContent = `
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
-  .num.animated { animation: pulse 0.6s ease-out; }
-`;
-document.head.appendChild(styleNode);
 </script>
 </body>
 </html>
