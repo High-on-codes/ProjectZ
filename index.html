@@ -258,31 +258,6 @@
     color: var(--rosewood);
   }
 
-  .toast-popup{
-    position:fixed;
-    bottom:-60px;
-    left:50%;
-    transform:translateX(-50%);
-    background:var(--panel);
-    border:1px solid var(--brass);
-    color:var(--parchment);
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    padding:14px 24px;
-    border-radius:var(--radius);
-    z-index:100;
-    opacity:0;
-    pointer-events:none;
-    box-shadow:0 12px 32px rgba(0,0,0,0.5);
-    transition:bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-  }
-  .toast-popup.show{
-    bottom:32px;
-    opacity:1;
-  }
-
   footer{border-top:1px solid var(--line);padding:48px 0 40px;}
   .foot-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
   .foot-links{display:flex;gap:26px;flex-wrap:wrap;}
@@ -338,9 +313,6 @@
   </div>
 </div>
 
-<!-- toast structure -->
-<div id="downloadToast" class="toast-popup">your missioncraft will be ready soon!</div>
-
 <nav>
   <div class="nav-inner">
     <div class="brand">
@@ -354,7 +326,7 @@
       <a href="#waitlist">Voyage &amp; Support</a>
       <a href="legal.html">Legal</a>
     </div>
-    <a class="btn" href="#waitlist">Get the App</a>
+    <a class="btn" href="https://apps.apple.com/in/app/project-z/id6790594731" target="_blank" rel="noopener">Get the App</a>
   </div>
 </nav>
 
@@ -364,7 +336,7 @@
     <h1 class="headline">Chart any ambition <em>like a constellation.</em></h1>
     <p class="sub">Project Z turns a single goal into a 15-to-30 waypoint course, plotted entirely by a local AI engine on your phone. Nothing is uploaded, nothing is tracked — the chart never leaves your pocket.</p>
     <div class="hero-ctas">
-      <button class="btn" style="cursor:pointer;" onclick="showToast()">Download on the App Store</button>
+      <a class="btn" href="https://apps.apple.com/in/app/project-z/id6790594731" target="_blank" rel="noopener">Download on the App Store</a>
       <a class="btn ghost" href="#demo">Try it below ↓</a>
     </div>
     <div class="stat-row">
@@ -556,18 +528,6 @@ const templates = {
   "ship a startup": ["Define the problem","Interview ten prospects","Sketch the smallest solution","Validate willingness to pay","Build a rough prototype","Get five users testing","Collect structured feedback","Cut to core feature","Set a launch date","Write launch copy","Open a waitlist","Ship version one","Onboard first cohort","Fix top three complaints","Set a pricing model","Plan the next iteration"],
   "learn celestial navigation": ["Learn the celestial sphere","Identify key navigational stars","Practice using a sextant","Understand sight reduction","Learn the nautical almanac","Take a noon sun sight","Calculate a line of position","Practice star sights at twilight","Learn dead reckoning","Combine fixes with DR","Practice on land first","Take a real sight at sea","Cross-check with GPS","Log deviations","Refine sextant technique","Navigate a full passage"]
 };
-
-let toastTimeout;
-function showToast() {
-  const toast = document.getElementById('downloadToast');
-  if(!toast) return;
-  toast.classList.add('show');
-  
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
 
 const form = document.getElementById("waitlistForm");
 const statusMessage = document.getElementById("formStatusMessage");
