@@ -5,11 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project Z — Chart Any Ambition Like a Constellation</title>
 <meta name="description" content="Project Z is a local-first, on-device roadmap generator for iOS. Turn any goal into a 15–30 waypoint chart, plotted entirely on your phone. No cloud, no accounts, no tracking.">
-<!-- Browser Tab Favicon Link -->
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Spectral:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- GSAP Animation Library CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <style>
   :root{
     --ink:#0a0e1a;
@@ -45,7 +49,6 @@
     position:relative;z-index:10;
   }
   
-  /* Static Z Logo for Loading Screen */
   .logo-constellation{
     position:relative;
     width:280px;height:280px;
@@ -56,7 +59,6 @@
     filter:drop-shadow(0 10px 20px rgba(224, 182, 88, 0.2));
   }
   
-  /* Loading text */
   .loading-text{
     font-family:'IBM Plex Mono', monospace;
     font-size:1rem;
@@ -114,42 +116,53 @@
   img,svg{display:block;max-width:100%;}
   .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
 
-  /* Optimized Starfield background */
-  .stars{
-    position:fixed;inset:0;z-index:-2;
-    background-color:var(--ink);
-  }
-  .stars::after{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(ellipse at 50% -10%, #1a2540 0%, transparent 65%);
+  /* Dynamic Interactive Starfield Canvas Background */
+  #starsCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
   }
 
-  /* nav */
+  /* Glassmorphism Navigation with Smooth Transition */
   nav{
     position:sticky;top:0;z-index:50;
-    background:rgba(10,14,26,0.86);
-    backdrop-filter:blur(10px);
+    background:rgba(10,14,26,0.85);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
     border-bottom:1px solid var(--line);
+    transition: padding 0.3s ease, background 0.3s ease;
   }
   .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:1160px;margin:0 auto;}
   .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:1.15rem;}
-  .brand-mark{width:26px;height:26px;object-fit:contain;border-radius:6px;flex:none;}
+  .brand-mark{width:26px;height:26px;object-fit:contain;border-radius:6px;flex:none;transition: transform 0.4s ease;}
+  .brand:hover .brand-mark { transform: rotate(180deg); }
   .nav-links{display:flex;gap:32px;align-items:center;}
   .nav-links a{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);transition:color .2s;}
   .nav-links a:hover{color:var(--brass-bright);}
+  
+  /* Buttons with Interactive Physics & Glow Effects */
   .btn{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;
     padding:11px 20px;border-radius:var(--radius);
     text-decoration:none;border:1px solid var(--brass);
     color:var(--ink);background:var(--brass);
-    transition:background .2s;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background .2s, box-shadow .2s;
   }
-  .btn:hover{background:var(--brass-bright);}
+  .btn:hover{
+    background:var(--brass-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(224, 182, 88, 0.3);
+  }
+  .btn:active { transform: translateY(0); }
   .btn.ghost{background:transparent;color:var(--brass-bright);}
-  .btn.ghost:hover{background:rgba(200,155,60,0.1);}
+  .btn.ghost:hover{
+    background:rgba(200,155,60,0.1);
+    box-shadow: 0 6px 20px rgba(200, 155, 60, 0.15);
+  }
 
-  /* hero */
+  /* Hero Section */
   header.hero{position:relative;padding:110px 0 70px;overflow:hidden;}
   .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.74rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--verdigris);margin-bottom:22px;display:flex;align-items:center;gap:10px;}
   .eyebrow::before{content:"";width:26px;height:1px;background:var(--verdigris);display:inline-block;}
@@ -157,8 +170,10 @@
   h1.headline em{font-style:italic;color:var(--brass-bright);}
   .sub{max-width:600px;color:var(--parchment-dim);font-size:1.08rem;margin-bottom:38px;}
   .hero-ctas{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:64px;}
+  
   .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:720px;}
-  .stat{background:var(--panel);padding:20px 18px;}
+  .stat{background:var(--panel);padding:20px 18px;transition: background 0.3s ease;}
+  .stat:hover { background: var(--panel-2); }
   .stat .num{font-family:'Fraunces',serif;font-size:1.9rem;color:var(--brass-bright);}
   .stat .lbl{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--parchment-dim);margin-top:4px;}
 
@@ -168,17 +183,27 @@
   .section-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin:0 0 16px;}
   .section-head p{color:var(--parchment-dim);font-size:1.02rem;}
 
-  /* pillars */
+  /* Pillars with Card Lift Effect */
   .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-  .pillar{background:var(--panel);padding:38px 32px;}
-  .pillar .glyph{width:38px;height:38px;color:var(--brass-bright);margin-bottom:26px;}
+  .pillar{
+    background:var(--panel);padding:38px 32px;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .pillar:hover {
+    background:var(--panel-2);
+    transform: translateY(-4px);
+    z-index: 2;
+  }
+  .pillar .glyph{width:38px;height:38px;color:var(--brass-bright);margin-bottom:26px;transition: transform 0.3s ease;}
+  .pillar:hover .glyph { transform: scale(1.1); }
   .pillar h3{font-size:1.3rem;margin:0 0 12px;}
   .pillar p{color:var(--parchment-dim);font-size:0.95rem;margin:0;}
 
-  /* demo */
+  /* Demo Panel */
   .demo-panel{
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
     padding:0;overflow:hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   }
   .demo-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--line);}
   .demo-toolbar .mono{color:var(--parchment-dim);}
@@ -190,18 +215,22 @@
   .goal-form input{
     width:100%; flex:1;background:var(--ink);border:1px solid var(--line);color:var(--parchment);
     font-family:'Spectral',serif;font-size:0.98rem;padding:13px 16px;border-radius:var(--radius);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .goal-form input:focus{outline:none;border-color:var(--brass);}
+  .goal-form input:focus{outline:none;border-color:var(--brass);box-shadow: 0 0 12px rgba(200, 155, 60, 0.2);}
   .goal-form button{
     font-family:'IBM Plex Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;
     background:var(--verdigris);color:var(--ink);border:none;padding:0 20px;border-radius:var(--radius);cursor:pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
   }
+  .goal-form button:hover { background: #6ec4bd; transform: scale(1.02); }
   .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
   .chip{
     font-family:'IBM Plex Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;
     border:1px solid var(--line);color:var(--parchment-dim);padding:8px 12px;border-radius:20px;cursor:pointer;background:transparent;
+    transition: all 0.2s ease;
   }
-  .chip:hover{border-color:var(--brass);color:var(--brass-bright);}
+  .chip:hover{border-color:var(--brass);color:var(--brass-bright);transform: translateY(-1px);}
   .demo-status{margin-top:26px;color:var(--parchment-dim);font-size:0.88rem;}
   .demo-status strong{color:var(--verdigris);}
   .chart-col{padding:20px;display:flex;align-items:center;justify-content:center;}
@@ -209,22 +238,26 @@
   .waypoint-label{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--parchment-dim);}
   .waypoint-title{font-family:'Spectral',serif;font-size:12.5px;fill:var(--parchment);}
 
-  /* architecture */
+  /* Architecture */
   .arch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-  .arch-card{background:var(--panel);padding:34px 30px;}
+  .arch-card{background:var(--panel);padding:34px 30px;transition: background 0.3s ease;}
+  .arch-card:hover{background:var(--panel-2);}
   .arch-card .tag{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:var(--verdigris);text-transform:uppercase;margin-bottom:16px;}
   .arch-card h3{font-size:1.15rem;margin:0 0 10px;}
   .arch-card p{color:var(--parchment-dim);font-size:0.9rem;margin:0 0 20px;}
   .kv{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;padding:8px 0;border-top:1px solid var(--line);color:var(--parchment-dim);}
   .kv span:last-child{color:var(--parchment);}
 
-  /* waitlist & support */
+  /* Waitlist */
   .waitlist{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:56px;display:flex;gap:56px;justify-content:space-between;align-items:center;flex-wrap:wrap;}
   .waitlist-copy{max-width:440px;}
   .waitlist-copy h2{font-size:1.9rem;margin:0 0 14px;}
   .waitlist-copy p{color:var(--parchment-dim);margin:0;}
   .waitlist-form{display:flex;flex-direction:column;gap:14px;min-width:300px;flex:1;max-width:400px;}
-  .waitlist-form input{background:var(--ink);border:1px solid var(--line);color:var(--parchment);font-family:'Spectral',serif;padding:13px 16px;border-radius:var(--radius);}
+  .waitlist-form input{
+    background:var(--ink);border:1px solid var(--line);color:var(--parchment);font-family:'Spectral',serif;padding:13px 16px;border-radius:var(--radius);
+    transition: border-color 0.3s ease;
+  }
   .waitlist-form input:focus{outline:none;border-color:var(--brass);}
   
   .hidden-field {
@@ -249,19 +282,13 @@
     margin-top: 4px;
     display: none;
   }
-  #formStatusMessage.success {
-    display: block;
-    color: var(--verdigris);
-  }
-  #formStatusMessage.error {
-    display: block;
-    color: var(--rosewood);
-  }
+  #formStatusMessage.success { display: block; color: var(--verdigris); }
+  #formStatusMessage.error { display: block; color: var(--rosewood); }
 
   footer{border-top:1px solid var(--line);padding:48px 0 40px;}
   .foot-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
   .foot-links{display:flex;gap:26px;flex-wrap:wrap;}
-  .foot-links a{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);}
+  .foot-links a{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;color:var(--parchment-dim);transition:color 0.2s;}
   .foot-links a:hover{color:var(--brass-bright);}
   .copyright{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--parchment-dim);margin-top:18px;}
 
@@ -273,7 +300,9 @@
 </style>
 </head>
 <body class="loading-active">
-<div class="stars"></div>
+
+<!-- Dynamic Starfield Canvas -->
+<canvas id="starsCanvas"></canvas>
 
 <!-- Loading Scene -->
 <div class="loading-overlay" id="loadingOverlay">
@@ -281,15 +310,12 @@
   <div class="loading-container">
     <div class="logo-constellation">
       <svg class="z-logo-3d" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
-        <!-- Back depth layer -->
         <g opacity="0.3">
           <path d="M 45 35 L 155 35 L 65 145 L 155 145" stroke="#5aa9a3" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
-        <!-- Middle depth -->
         <g opacity="0.6">
           <path d="M 40 30 L 150 30 L 60 140 L 150 140" stroke="#c89b3c" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
-        <!-- Front main Z -->
         <g>
           <defs>
             <linearGradient id="zGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -300,7 +326,6 @@
           </defs>
           <path d="M 35 25 L 145 25 L 55 135 L 145 135" stroke="url(#zGradient)" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
-        <!-- Right side depth -->
         <g opacity="0.4">
           <path d="M 42 32 L 152 32 L 62 142 L 152 142" stroke="#a8860f" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
@@ -332,14 +357,14 @@
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">SwiftUI Native · iOS 17+ · No Account Required</div>
-    <h1 class="headline">Chart any ambition <em>like a constellation.</em></h1>
-    <p class="sub">Project Z turns a single goal into a 15-to-30 waypoint course, plotted entirely by a local AI engine on your phone. Nothing is uploaded, nothing is tracked — the chart never leaves your pocket.</p>
-    <div class="hero-ctas">
+    <div class="eyebrow gsap-hero">SwiftUI Native · iOS 17+ · No Account Required</div>
+    <h1 class="headline gsap-hero">Chart any ambition <em>like a constellation.</em></h1>
+    <p class="sub gsap-hero">Project Z turns a single goal into a 15-to-30 waypoint course, plotted entirely by a local AI engine on your phone. Nothing is uploaded, nothing is tracked — the chart never leaves your pocket.</p>
+    <div class="hero-ctas gsap-hero">
       <a class="btn" href="https://apps.apple.com/in/app/project-z/id6790594731" target="_blank" rel="noopener">Download on the App Store</a>
       <a class="btn ghost" href="#demo">Try it below ↓</a>
     </div>
-    <div class="stat-row">
+    <div class="stat-row gsap-hero">
       <div class="stat"><div class="num">0</div><div class="lbl">Cloud Databases</div></div>
       <div class="stat"><div class="num">0</div><div class="lbl">Trackers Installed</div></div>
       <div class="stat"><div class="num">15–30</div><div class="lbl">Waypoints / Course</div></div>
@@ -350,12 +375,12 @@
 
 <section id="pillars">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head gsap-reveal">
       <div class="eyebrow">Three Instruments</div>
       <h2>Everything a serious course needs, nothing it doesn't.</h2>
       <p>Project Z isn't another checklist. It's a small set of instruments, each doing one job precisely.</p>
     </div>
-    <div class="pillars">
+    <div class="pillars gsap-reveal">
       <div class="pillar">
         <svg class="glyph" viewBox="0 0 40 40" fill="none"><path d="M20 4l3.5 11H35l-9.3 6.8L29 33 20 26 11 33l3.3-11.2L5 15h11.5z" stroke="#e0b658" stroke-width="1.2" fill="none"/></svg>
         <h3>Celestial Mapping</h3>
@@ -377,12 +402,12 @@
 
 <section id="demo">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head gsap-reveal">
       <div class="eyebrow">Live Preview</div>
       <h2>Name a goal. Watch the chart take shape.</h2>
       <p>This is a simplified web preview of the on-device engine. Try one of your own, or pick a course below — the real app runs this entirely offline, on your phone.</p>
     </div>
-    <div class="demo-panel">
+    <div class="demo-panel gsap-reveal">
       <div class="demo-toolbar">
         <span class="mono">projectz_engine.local — awaiting input</span>
         <span class="mono" id="engineStatus">Standing by</span>
@@ -411,12 +436,12 @@
 
 <section id="architecture">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head gsap-reveal">
       <div class="eyebrow">Engineering Schematic</div>
       <h2>Built native. Runs local. No exceptions.</h2>
       <p>Project Z is written entirely in SwiftUI with a sandboxed SwiftData layer — no third-party backend, no remote API for your data to pass through.</p>
     </div>
-    <div class="arch-grid">
+    <div class="arch-grid gsap-reveal">
       <div class="arch-card">
         <div class="tag">Layer 01 — Interface</div>
         <h3>SwiftUI Native Execution</h3>
@@ -447,7 +472,7 @@
 
 <section id="waitlist">
   <div class="wrap">
-    <div class="waitlist">
+    <div class="waitlist gsap-reveal">
       <div class="waitlist-copy">
         <div class="eyebrow">Beta Cohort Intake &amp; Support</div>
         <h2>Chart your next course tonight.</h2>
@@ -455,9 +480,7 @@
       </div>
       <div class="waitlist-form">
         <form id="waitlistForm" action="https://formspree.io/f/mwvdndew" method="POST" style="display:contents;">
-          <!-- Honeypot anti-spam input field -->
           <input type="text" name="_gotcha" class="hidden-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-          
           <input type="email" name="email" placeholder="Enter your email address" required aria-label="Email address">
           <button type="submit" id="submitBtn" class="btn" style="justify-content:center; width:100%; border:1px solid var(--brass); cursor:pointer;">Join the Voyage</button>
         </form>
@@ -487,19 +510,74 @@
 </footer>
 
 <script>
-// Static presentation background star rendering
-function initStaticStars() {
+// --- 1. Dynamic Starfield Engine (Canvas Animation) ---
+let mouseX = 0, mouseY = 0;
+const starsCanvas = document.getElementById('starsCanvas');
+const starsCtx = starsCanvas ? starsCanvas.getContext('2d') : null;
+let starsArray = [];
+
+function resizeCanvas() {
+  if(!starsCanvas) return;
+  starsCanvas.width = window.innerWidth;
+  starsCanvas.height = window.innerHeight;
+  initStars();
+}
+
+function initStars() {
+  starsArray = [];
+  const count = Math.floor((starsCanvas.width * starsCanvas.height) / 8000);
+  for (let i = 0; i < count; i++) {
+    starsArray.push({
+      x: Math.random() * starsCanvas.width,
+      y: Math.random() * starsCanvas.height,
+      radius: Math.random() * 1.2 + 0.3,
+      alpha: Math.random(),
+      speed: Math.random() * 0.02 + 0.005,
+      driftX: (Math.random() - 0.5) * 0.2
+    });
+  }
+}
+
+function renderStars() {
+  if(!starsCtx) return;
+  starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+  
+  // Parallax subtle offset calculation
+  const offsetX = (mouseX / window.innerWidth - 0.5) * 15;
+  const offsetY = (mouseY / window.innerHeight - 0.5) * 15;
+
+  starsArray.forEach(star => {
+    star.alpha += star.speed;
+    if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+    star.x += star.driftX;
+    
+    if (star.x < 0) star.x = starsCanvas.width;
+    if (star.x > starsCanvas.width) star.x = 0;
+
+    starsCtx.beginPath();
+    starsCtx.arc(star.x + offsetX, star.y + offsetY, star.radius, 0, Math.PI * 2);
+    starsCtx.fillStyle = `rgba(224, 182, 88, ${Math.abs(star.alpha) * 0.7})`;
+    starsCtx.fill();
+  });
+
+  requestAnimationFrame(renderStars);
+}
+
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+// --- 2. Loading Overlay Canvas Engine ---
+function initLoadingCanvas() {
   const canvas = document.getElementById('loadingCanvas');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  
-  // Clean single paint operation for initial backing texture
   ctx.fillStyle = '#0a0e1a';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
   ctx.fillStyle = 'rgba(224, 182, 88, 0.4)';
   for (let i = 0; i < 40; i++) {
     ctx.beginPath();
@@ -508,7 +586,7 @@ function initStaticStars() {
   }
 }
 
-// Graceful loading removal sequence execution
+// --- 3. Loading Removal & GSAP Animations Trigger ---
 window.addEventListener('load', function() {
   const loadingOverlay = document.getElementById('loadingOverlay');
   setTimeout(() => {
@@ -516,11 +594,42 @@ window.addEventListener('load', function() {
       loadingOverlay.classList.add('fade-out');
     }
     document.body.classList.remove('loading-active');
-  }, 2200);
+
+    // Trigger GSAP Hero Entrance Sequence
+    gsap.from(".gsap-hero", {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      stagger: 0.15,
+      ease: "power3.out"
+    });
+  }, 1800);
 });
 
-document.addEventListener('DOMContentLoaded', initStaticStars);
+document.addEventListener('DOMContentLoaded', () => {
+  resizeCanvas();
+  renderStars();
+  initLoadingCanvas();
 
+  // GSAP ScrollTrigger Setup
+  gsap.registerPlugin(ScrollTrigger);
+  
+  gsap.utils.toArray('.gsap-reveal').forEach(element => {
+    gsap.from(element, {
+      scrollTrigger: {
+        trigger: element,
+        start: "top 85%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out"
+    });
+  });
+});
+
+// --- 4. Interactive Charting Logic with Motion Effects ---
 const templates = {
   "build a rocket": ["Define mission payload","Study propulsion basics","Choose engine class","Draft airframe geometry","Model center of gravity","Select recovery system","Source motor & materials","Assemble airframe","Wire ignition system","Ground test static fire","Pre-flight checklist","Launch window selection","First flight","Recover & inspect","Log flight data","Iterate design"],
   "launch a podcast": ["Pick a core premise","Define your audience","Name the show","Choose a format","Source a microphone","Build a simple set","Write episode one","Record a pilot","Edit the pilot","Design cover art","Choose a host platform","Publish episode one","Create a release cadence","Pitch first guest","Share to three communities","Review first metrics"],
@@ -528,55 +637,6 @@ const templates = {
   "ship a startup": ["Define the problem","Interview ten prospects","Sketch the smallest solution","Validate willingness to pay","Build a rough prototype","Get five users testing","Collect structured feedback","Cut to core feature","Set a launch date","Write launch copy","Open a waitlist","Ship version one","Onboard first cohort","Fix top three complaints","Set a pricing model","Plan the next iteration"],
   "learn celestial navigation": ["Learn the celestial sphere","Identify key navigational stars","Practice using a sextant","Understand sight reduction","Learn the nautical almanac","Take a noon sun sight","Calculate a line of position","Practice star sights at twilight","Learn dead reckoning","Combine fixes with DR","Practice on land first","Take a real sight at sea","Cross-check with GPS","Log deviations","Refine sextant technique","Navigate a full passage"]
 };
-
-const form = document.getElementById("waitlistForm");
-const statusMessage = document.getElementById("formStatusMessage");
-const submitBtn = document.getElementById("submitBtn");
-
-if (form) {
-  form.addEventListener("submit", async function(event) {
-    event.preventDefault();
-    
-    const honeypot = form.querySelector('input[name="_gotcha"]');
-    if (honeypot && honeypot.value !== "") {
-      statusMessage.textContent = "Transmission complete. Welcome to the cohort.";
-      statusMessage.className = "success";
-      form.reset();
-      return;
-    }
-    
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Transmitting…";
-    
-    const data = new FormData(event.target);
-    
-    try {
-      const response = await fetch(event.target.action, {
-        method: form.method,
-        body: data,
-        headers: {
-            'Accept': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        statusMessage.textContent = "Transmission complete. Welcome to the cohort.";
-        statusMessage.className = "success";
-        form.reset();
-      } else {
-        const errorData = await response.json();
-        statusMessage.textContent = errorData.errors ? errorData.errors.map(error => error.message).join(", ") : "Oops! There was a problem submitting your form";
-        statusMessage.className = "error";
-      }
-    } catch (error) {
-      statusMessage.textContent = "Network array error. Check connection and retry.";
-      statusMessage.className = "error";
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Join the Voyage";
-    }
-  });
-}
 
 function quickPlot(name){ 
   const input = document.getElementById('goalInput');
@@ -609,15 +669,17 @@ function drawChart(steps){
   let nodes = [];
   const n = steps.length;
   const cx = w/2, cy = h/2, rBase = 150;
+  
   for(let i=0;i<n;i++){
     const angle = (i / n) * Math.PI * 2 - Math.PI/2;
     const wob = (i % 3 === 0) ? 20 : (i % 2 === 0 ? -14 : 6);
     const r = rBase + wob;
     nodes.push({x: cx + r*Math.cos(angle), y: cy + r*Math.sin(angle), label: steps[i]});
   }
+  
   let lines = '';
   for(let i=0;i<n-1;i++){
-    lines += `<line x1="${nodes[i].x}" y1="${nodes[i].y}" x2="${nodes[i+1].x}" y2="${nodes[i+1].y}" stroke="#5aa9a3" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.7"/>`;
+    lines += `<line class="chart-line" x1="${nodes[i].x}" y1="${nodes[i].y}" x2="${nodes[i+1].x}" y2="${nodes[i+1].y}" stroke="#5aa9a3" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.7"/>`;
   }
   let dots = '';
   nodes.forEach((p, i) => {
@@ -626,9 +688,10 @@ function drawChart(steps){
     const rad = isFirst || isLast ? 5 : 3.4;
     const labelDx = p.x > cx ? 10 : -10;
     const anchor = p.x > cx ? 'start' : 'end';
-    dots += `<circle cx="${p.x}" cy="${p.y}" r="${rad}" fill="${fill}" stroke="#0a0e1a" stroke-width="1.5"/>`;
-    dots += `<text x="${p.x + labelDx}" y="${p.y+3}" text-anchor="${anchor}" class="waypoint-label">${String(i+1).padStart(2,'0')} · ${p.label.length>18? p.label.slice(0,17)+'…': p.label}</text>`;
+    dots += `<circle class="chart-dot" cx="${p.x}" cy="${p.y}" r="${rad}" fill="${fill}" stroke="#0a0e1a" stroke-width="1.5"/>`;
+    dots += `<text class="waypoint-label chart-text" x="${p.x + labelDx}" y="${p.y+3}" text-anchor="${anchor}">${String(i+1).padStart(2,'0')} · ${p.label.length>18? p.label.slice(0,17)+'…': p.label}</text>`;
   });
+  
   svg.innerHTML = `
     <circle cx="${cx}" cy="${cy}" r="${rBase+40}" fill="none" stroke="#26314a" stroke-width="1"/>
     <circle cx="${cx}" cy="${cy}" r="${rBase-20}" fill="none" stroke="#26314a" stroke-width="1" stroke-dasharray="1 4"/>
@@ -637,9 +700,57 @@ function drawChart(steps){
     <text x="${cx}" y="${cy-4}" text-anchor="middle" class="waypoint-title" fill="#b9b2a0">course</text>
     <text x="${cx}" y="${cy+12}" text-anchor="middle" class="waypoint-label">${n} WAYPOINTS</text>
   `;
+
+  // Animate newly plotted SVG elements using GSAP
+  gsap.from(".chart-dot", { scale: 0, opacity: 0, duration: 0.4, stagger: 0.04, ease: "back.out(1.7)" });
+  gsap.from(".chart-line", { opacity: 0, duration: 0.6, delay: 0.2 });
+  gsap.from(".chart-text", { opacity: 0, y: 5, duration: 0.4, stagger: 0.04 });
 }
 
 drawChart(templates["ship a startup"].slice(0,10));
+
+// Form Submission Handler
+const form = document.getElementById("waitlistForm");
+const statusMessage = document.getElementById("formStatusMessage");
+const submitBtn = document.getElementById("submitBtn");
+
+if (form) {
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const honeypot = form.querySelector('input[name="_gotcha"]');
+    if (honeypot && honeypot.value !== "") {
+      statusMessage.textContent = "Transmission complete. Welcome to the cohort.";
+      statusMessage.className = "success";
+      form.reset();
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Transmitting…";
+    const data = new FormData(event.target);
+    try {
+      const response = await fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        statusMessage.textContent = "Transmission complete. Welcome to the cohort.";
+        statusMessage.className = "success";
+        form.reset();
+      } else {
+        const errorData = await response.json();
+        statusMessage.textContent = errorData.errors ? errorData.errors.map(error => error.message).join(", ") : "Oops! Problem submitting form";
+        statusMessage.className = "error";
+      }
+    } catch (error) {
+      statusMessage.textContent = "Network array error. Check connection and retry.";
+      statusMessage.className = "error";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Join the Voyage";
+    }
+  });
+}
 </script>
 </body>
 </html>
